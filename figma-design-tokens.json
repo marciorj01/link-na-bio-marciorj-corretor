@@ -1,0 +1,48 @@
+{
+  "name": "Márcio Rogério Corretor - Dark Luxury Design Tokens",
+  "version": "1.0.0",
+  "color": {
+    "background": {
+      "deep": { "value": "#0E0F12", "type": "color", "description": "Fundo principal profundo" },
+      "card": { "value": "#151619", "type": "color", "description": "Fundo dos cards e contêineres" },
+      "elevated": { "value": "#1D1F23", "type": "color", "description": "Superfícies elevadas e modais" },
+      "subtle": { "value": "#252830", "type": "color", "description": "Bordas e elementos secundários" }
+    },
+    "gold": {
+      "primary": { "value": "#C5973D", "type": "color", "description": "Dourado âmbar / caramelo principal" },
+      "champagne": { "value": "#D4AF37", "type": "color", "description": "Dourado champagne metálico" },
+      "soft": { "value": "#E8D5A0", "type": "color", "description": "Dourado claro para destaques de texto" }
+    },
+    "text": {
+      "primary": { "value": "#F8F7F4", "type": "color", "description": "Off-white principal" },
+      "secondary": { "value": "#D4D2CD", "type": "color", "description": "Texto de leitura e parágrafos" },
+      "muted": { "value": "#9E9B95", "type": "color", "description": "Legendas e metadados discretos" }
+    },
+    "border": {
+      "subtle": { "value": "rgba(255, 255, 255, 0.08)", "type": "color" },
+      "goldGlow": { "value": "rgba(197, 151, 61, 0.35)", "type": "color" }
+    }
+  },
+  "typography": {
+    "fontFamilies": {
+      "display": { "value": "Cormorant Garamond", "type": "fontFamilies" },
+      "body": { "value": "Plus Jakarta Sans", "type": "fontFamilies" }
+    },
+    "fontSizes": {
+      "heroTitle": { "value": "36px", "type": "fontSizes" },
+      "sectionTitle": { "value": "24px", "type": "fontSizes" },
+      "cardTitle": { "value": "18px", "type": "fontSizes" },
+      "body": { "value": "14px", "type": "fontSizes" },
+      "caption": { "value": "11px", "type": "fontSizes" }
+    }
+  },
+  "borderRadius": {
+    "card": { "value": "16px", "type": "borderRadius" },
+    "button": { "value": "12px", "type": "borderRadius" },
+    "pill": { "value": "9999px", "type": "borderRadius" }
+  },
+  "viewport": {
+    "mobile": { "width": "430px", "height": "932px", "type": "dimensions" },
+    "story": { "width": "1080px", "height": "1920px", "type": "dimensions" }
+  }
+}

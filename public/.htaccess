@@ -1,0 +1,26 @@
+# Configurações Apache / cPanel / Hospedagem PHP
+
+# Ativa compressão Gzip para carregamento ultra-rápido no celular
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript application/json
+</IfModule>
+
+# Charset padrão UTF-8
+AddDefaultCharset UTF-8
+
+# Desativa listagem de diretório por segurança
+Options -Indexes
+
+# Roteamento padrão
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Permite acesso direto a arquivos existentes (salvar.php, dados.json, imagens, css, js)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Redireciona demais rotas para o index.html
+    RewriteRule ^ index.html [L]
+</IfModule>

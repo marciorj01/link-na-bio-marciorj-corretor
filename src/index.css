@@ -1,0 +1,675 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-bg-deep: #0D0E10;
+    --color-bg-card: #151619;
+    --color-bg-elevated: #1D1F23;
+    --color-gold-champagne: #D4AF37;
+    --color-gold-caramel: #C5973D;
+    --color-gold-soft: #E8D5A0;
+    --color-offwhite: #F8F7F4;
+    --color-muted: #9E9B95;
+    --color-border-subtle: rgba(255, 255, 255, 0.08);
+    --color-border-gold: rgba(212, 175, 55, 0.25);
+  }
+
+  body {
+    background-color: #0E0F12;
+    color: #F8F7F4;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Aplicação global de font-weight: 600 / 700 para máxima legibilidade */
+  p, span, a {
+    font-weight: 600;
+  }
+
+  b, strong, .font-bold, .font-semibold {
+    font-weight: 700;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+  }
+}
+
+/* Custom luxury scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0E0F12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A2D33;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C5973D;
+}
+
+/* Subtle gold shimmer */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E8D5A0 50%, #C5973D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border-glow {
+  box-shadow: 0 0 25px -5px rgba(197, 151, 61, 0.15);
+}
+
+/* ========================================================================== */
+/* LIGHT MODE STYLING (.theme-light)                                          */
+/* Modo Claro elegante, padrão luxo editorial / champagne & pérola           */
+/* ========================================================================== */
+
+.theme-light {
+  color: #141519 !important;
+  background-color: #FAF8F5 !important;
+}
+
+/* Frame do minisite */
+.theme-light .minisite-frame {
+  background-color: #FAF8F5 !important;
+  border-color: #E2DBD0 !important;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Seções e containers */
+.theme-light section > div.rounded-2xl {
+  background: #FFFFFF !important;
+  border-color: #E5DFD3 !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+.theme-light .seller-block > div.rounded-2xl,
+.theme-light .financing-block > div.rounded-2xl {
+  background: #FFFFFF !important;
+  border-color: rgba(197, 151, 61, 0.35) !important;
+  box-shadow: 0 6px 25px -4px rgba(197, 151, 61, 0.08), 0 2px 10px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Cartões individuais */
+.theme-light .card {
+  background: #F8F6F2 !important;
+  border-color: #E2DDD3 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+}
+
+.theme-light .card:hover {
+  background: #FFFFFF !important;
+  border-color: #C5973D !important;
+  box-shadow: 0 4px 16px rgba(197, 151, 61, 0.12) !important;
+}
+
+/* Tipografia no modo claro */
+.theme-light h1,
+.theme-light h2,
+.theme-light h3,
+.theme-light h4,
+.theme-light .font-serif {
+  color: #111215 !important;
+  font-weight: 700;
+}
+
+.theme-light p {
+  color: #1A1C22 !important;
+  font-weight: 600 !important;
+}
+
+.theme-light span,
+.theme-light a {
+  font-weight: 600;
+}
+
+.theme-light .font-light,
+.theme-light [class*="font-light"],
+.theme-light .font-extralight {
+  font-weight: 600 !important;
+}
+
+.theme-light b,
+.theme-light strong,
+.theme-light .font-bold,
+.theme-light .font-semibold {
+  font-weight: 700 !important;
+}
+
+.theme-light .text-\[\#F8F7F4\],
+.theme-light .text-white {
+  color: #111215 !important;
+}
+
+.theme-light .text-\[\#D4D2CD\],
+.theme-light .text-zinc-300,
+.theme-light .text-zinc-400 {
+  color: #1A1C22 !important;
+  font-weight: 600 !important;
+}
+
+/* Subtítulos e textos secundários com alto contraste no modo claro (nunca apagado) */
+.theme-light .text-\[\#9E9B95\] {
+  color: #1E2026 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+/* Ouro nobre de alto contraste no modo claro */
+.theme-light .text-\[\#C5973D\] {
+  color: #9E7422 !important;
+}
+
+.theme-light .text-\[\#E8D5A0\] {
+  color: #7A551A !important;
+}
+
+/* ========================================================================== */
+/* SEÇÃO 3 (CURADORIA DE IMÓVEIS) - FOCO DE LEGIBILIDADE NO MODO CLARO        */
+/* CSS selector 1 & 2: section:nth-of-type(3) e seu parágrafo de descrição    */
+/* ========================================================================== */
+.theme-light section:nth-of-type(3),
+.theme-light .curated-block {
+  color: #141519 !important;
+}
+
+/* Selector 1: Parágrafo de descrição principal da curadoria */
+.theme-light section:nth-of-type(3) > div:nth-of-type(1) > p:nth-of-type(1),
+.theme-light section:nth-of-type(3) > div:first-of-type > p,
+.theme-light .curated-block > div:first-of-type > p {
+  color: #111215 !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.6 !important;
+  opacity: 1 !important;
+}
+
+.theme-light section:nth-of-type(3) > div:nth-of-type(1) > h2:nth-of-type(1),
+.theme-light section:nth-of-type(3) h2,
+.theme-light .curated-block h2 {
+  color: #111215 !important;
+  font-weight: 700 !important;
+}
+
+/* Botão de portal externo da curadoria na seção 3 */
+.theme-light section:nth-of-type(3) > a:nth-of-type(1),
+.theme-light section:nth-of-type(3) a.bg-\[\#1E2026\],
+.theme-light .curated-block a.bg-\[\#1E2026\] {
+  background: #FFFFFF !important;
+  border-color: #E2DBD0 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-light section:nth-of-type(3) a.bg-\[\#1E2026\]:hover,
+.theme-light .curated-block a.bg-\[\#1E2026\]:hover {
+  background: #FDFBF7 !important;
+  border-color: #C5973D !important;
+}
+
+.theme-light section:nth-of-type(3) a.bg-\[\#1E2026\] span.text-\[\#E8D5A0\],
+.theme-light .curated-block a.bg-\[\#1E2026\] span.text-\[\#E8D5A0\] {
+  color: #8C6527 !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(3) a.bg-\[\#1E2026\] div.text-\[\#9E9B95\],
+.theme-light .curated-block a.bg-\[\#1E2026\] div.text-\[\#9E9B95\] {
+  color: #2D3039 !important;
+  font-weight: 600 !important;
+}
+
+/* Cartões de imóveis na seção 3 */
+.theme-light section:nth-of-type(3) .rounded-xl.bg-\[\#16171B\],
+.theme-light section:nth-of-type(3) div.space-y-3\.5 > div,
+.theme-light .curated-block .rounded-xl.bg-\[\#16171B\],
+.theme-light .curated-block div.space-y-3\.5 > div {
+  background: #FFFFFF !important;
+  border-color: #E2DBD0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-light section:nth-of-type(3) .rounded-xl.bg-\[\#16171B\]:hover,
+.theme-light section:nth-of-type(3) div.space-y-3\.5 > div:hover,
+.theme-light .curated-block .rounded-xl.bg-\[\#16171B\]:hover,
+.theme-light .curated-block div.space-y-3\.5 > div:hover {
+  border-color: #C5973D !important;
+  box-shadow: 0 8px 24px rgba(197, 151, 61, 0.12) !important;
+}
+
+.theme-light section:nth-of-type(3) h3,
+.theme-light .curated-block h3 {
+  color: #111215 !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(3) div.text-\[\#C5973D\]\/90,
+.theme-light .curated-block div.text-\[\#C5973D\]\/90 {
+  color: #8C6527 !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(3) p.text-\[\#9E9B95\],
+.theme-light section:nth-of-type(3) p,
+.theme-light .curated-block p.text-\[\#9E9B95\],
+.theme-light .curated-block p {
+  color: #1A1C22 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+.theme-light section:nth-of-type(3) .border-t,
+.theme-light .curated-block .border-t {
+  border-color: #ECE7DE !important;
+}
+
+.theme-light section:nth-of-type(3) button.text-\[\#E8D5A0\],
+.theme-light .curated-block button.text-\[\#E8D5A0\] {
+  color: #8C6527 !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(3) a.bg-\[\#20232A\],
+.theme-light .curated-block a.bg-\[\#20232A\] {
+  background: #F3EFE8 !important;
+  color: #111215 !important;
+  border-color: #DDD6C8 !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(3) a.bg-\[\#20232A\]:hover,
+.theme-light .curated-block a.bg-\[\#20232A\]:hover {
+  background: #C5973D !important;
+  color: #0E0F12 !important;
+}
+
+/* Elementos secundários, divisores e fundos suaves */
+.theme-light .bg-white\/5,
+.theme-light .bg-white\/\[0\.03\],
+.theme-light .bg-white\/\[0\.02\],
+.theme-light .bg-white\/\[0\.015\] {
+  background-color: #F1ECE3 !important;
+  border-color: #DDD6C8 !important;
+}
+
+.theme-light a.bg-white\/5:hover,
+.theme-light button.bg-white\/5:hover {
+  background-color: #E6E1D5 !important;
+}
+
+.theme-light .border-white\/8,
+.theme-light .border-white\/10,
+.theme-light .border-white\/6,
+.theme-light .border-white\/5,
+.theme-light .border-white\/15,
+.theme-light .border-white\/20 {
+  border-color: #E2DBD0 !important;
+}
+
+/* Botão principal em degradê dourado */
+.theme-light .bg-gradient-to-r.from-\[\#C5973D\] {
+  color: #0E0F12 !important;
+  box-shadow: 0 4px 18px rgba(197, 151, 61, 0.25) !important;
+}
+
+/* Tags e selos */
+.theme-light .bg-\[\#C5973D\]\/15,
+.theme-light .bg-\[\#C5973D\]\/20 {
+  background-color: rgba(197, 151, 61, 0.15) !important;
+  color: #8C6527 !important;
+}
+
+/* Inputs do Lead Magnet no modo claro */
+.theme-light input,
+.theme-light textarea,
+.theme-light select {
+  background-color: #F6F4EE !important;
+  border-color: #D8D2C5 !important;
+  color: #141519 !important;
+}
+
+.theme-light input::placeholder,
+.theme-light textarea::placeholder {
+  color: #8C8D95 !important;
+}
+
+/* Rodapé */
+.theme-light footer {
+  border-color: #E5DFD3 !important;
+}
+
+/* Badges dos bancos no bloco de financiamento */
+.theme-light .financing-block span.bg-white\/\[0\.04\] {
+  background-color: #F1EFEA !important;
+  border-color: #DDD6C8 !important;
+  color: #1A1C22 !important;
+}
+
+/* Chatbot no modo claro */
+.theme-light .chatbot-modal-content {
+  background-color: #FAF8F5 !important;
+  color: #141519 !important;
+  border-color: #E2DBD0 !important;
+}
+
+.theme-light .chatbot-bubble-bot {
+  background-color: #F1ECE3 !important;
+  color: #141519 !important;
+}
+
+.theme-light .chatbot-bubble-bot p {
+  color: #141519 !important;
+}
+
+/* ========================================================================== */
+/* FOTOS & DEGRADÊS ESCUROS: MÁXIMA LEGIBILIDADE EM TODOS OS TEMAS             */
+/* (CLARO / ESCURO)                                                            */
+/* Texto em branco puro, em negrito (700) e com sombra contra fotos e degradê */
+/* ========================================================================== */
+
+.photo-card-media,
+[class*="aspect-"] {
+  position: relative;
+}
+
+/* Forçar texto branco (#FFFFFF) e negrito (700) sobre qualquer foto ou degradê escuro */
+.photo-card-media span,
+.photo-card-media p,
+.photo-card-media div,
+.photo-card-media a,
+.photo-pill,
+.photo-pill span,
+.photo-badge,
+.photo-badge span,
+.photo-card-fallback span,
+.photo-scrim-text,
+[class*="aspect-"] span,
+[class*="aspect-"] p,
+[class*="aspect-"] div,
+[class*="aspect-"] a,
+.theme-light .photo-card-media span,
+.theme-light .photo-card-media p,
+.theme-light .photo-card-media div,
+.theme-light .photo-card-media a,
+.theme-light .photo-pill,
+.theme-light .photo-pill span,
+.theme-light .photo-badge,
+.theme-light .photo-badge span,
+.theme-light .photo-card-fallback span,
+.theme-light .photo-scrim-text,
+.theme-light [class*="aspect-"] span,
+.theme-light [class*="aspect-"] p,
+.theme-light [class*="aspect-"] div,
+.theme-light [class*="aspect-"] a {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.92), 0 2px 8px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Selo com destaque dourado sobre fotos (ex: Lançamento Selecionado) */
+.photo-card-media .text-\[\#E8D5A0\],
+.theme-light .photo-card-media .text-\[\#E8D5A0\],
+[class*="aspect-"] .text-\[\#E8D5A0\],
+.theme-light [class*="aspect-"] .text-\[\#E8D5A0\],
+.photo-card-media .text-\[\#F3E5BE\],
+.theme-light .photo-card-media .text-\[\#F3E5BE\],
+[class*="aspect-"] .text-\[\#F3E5BE\],
+.theme-light [class*="aspect-"] .text-\[\#F3E5BE\] {
+  color: #F8E8C2 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Pílula / badge de localização sobre fotos (ex: Bairro, Metragem) */
+.photo-pill,
+[class*="aspect-"] [class*="bg-\[\#0E0F12\]"],
+.theme-light .photo-pill,
+.theme-light [class*="aspect-"] [class*="bg-\[\#0E0F12\]"] {
+  background-color: rgba(14, 15, 18, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+}
+
+.photo-pill span,
+.theme-light .photo-pill span,
+[class*="aspect-"] [class*="bg-\[\#0E0F12\]"] span,
+.theme-light [class*="aspect-"] [class*="bg-\[\#0E0F12\]"] span {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+.photo-pill svg,
+.theme-light .photo-pill svg,
+[class*="aspect-"] [class*="bg-\[\#0E0F12\]"] svg,
+.theme-light [class*="aspect-"] [class*="bg-\[\#0E0F12\]"] svg {
+  color: #D4AF37 !important;
+  stroke: #D4AF37 !important;
+}
+
+/* Badges com fundo dourado sobre fotos (ex: Pronto para morar) */
+.photo-card-media [class*="bg-\[\#C5973D\]"],
+.theme-light .photo-card-media [class*="bg-\[\#C5973D\]"],
+[class*="aspect-"] [class*="bg-\[\#C5973D\]"],
+.theme-light [class*="aspect-"] [class*="bg-\[\#C5973D\]"] {
+  background-color: #C5973D !important;
+  color: #0E0F12 !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+/* Fallback de imagens com fundo em degradê */
+.photo-card-fallback,
+.theme-light .photo-card-fallback {
+  background: linear-gradient(135deg, #1A1C20 0%, #151619 50%, #0E0F12 100%) !important;
+}
+
+.photo-card-fallback span,
+.theme-light .photo-card-fallback span {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+}
+
+.photo-card-fallback span.text-\[\#C5973D\],
+.theme-light .photo-card-fallback span.text-\[\#C5973D\] {
+  color: #D4AF37 !important;
+}
+
+/* ========================================================================== */
+/* SEÇÃO 7 (LEAD MAGNET / GUIA E E-BOOK) NO MODO CLARO (.theme-light)          */
+/* Máxima legibilidade com fundo pérola/branco, textos escuros de alto        */
+/* contraste e sem qualquer alteração no modo escuro ou sistema               */
+/* ========================================================================== */
+
+.theme-light section:nth-of-type(7),
+.theme-light .lead-magnet-block {
+  background: #FFFFFF !important;
+  background-image: none !important;
+  border: 1px solid #DDD6C8 !important;
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.05), 0 2px 10px rgba(197, 151, 61, 0.08) !important;
+}
+
+/* Suavizar brilhos decorativos no modo claro para não gerar manchas escuras */
+.theme-light section:nth-of-type(7) > div.pointer-events-none,
+.theme-light .lead-magnet-block > div.pointer-events-none {
+  opacity: 0.1 !important;
+}
+
+/* Badge superior */
+.theme-light section:nth-of-type(7) .bg-\[\#C5973D\]\/15,
+.theme-light .lead-magnet-block .bg-\[\#C5973D\]\/15 {
+  background-color: rgba(197, 151, 61, 0.14) !important;
+  border-color: rgba(197, 151, 61, 0.45) !important;
+  color: #7A551E !important;
+}
+
+.theme-light section:nth-of-type(7) .bg-\[\#C5973D\]\/15 span,
+.theme-light .lead-magnet-block .bg-\[\#C5973D\]\/15 span {
+  color: #7A551E !important;
+  font-weight: 700 !important;
+}
+
+/* Texto de formato / páginas */
+.theme-light section:nth-of-type(7) span.text-\[\#9E9B95\],
+.theme-light .lead-magnet-block span.text-\[\#9E9B95\] {
+  color: #4B4E58 !important;
+  font-weight: 600 !important;
+}
+
+/* Título principal */
+.theme-light section:nth-of-type(7) h3,
+.theme-light .lead-magnet-block h3 {
+  color: #111215 !important;
+  font-weight: 700 !important;
+}
+
+/* Subtítulo */
+.theme-light section:nth-of-type(7) p.text-\[\#E8D5A0\],
+.theme-light .lead-magnet-block p.text-\[\#E8D5A0\] {
+  color: #7A551E !important;
+  font-weight: 700 !important;
+}
+
+/* Descrição detalhada */
+.theme-light section:nth-of-type(7) p.text-\[\#9E9B95\],
+.theme-light .lead-magnet-block p.text-\[\#9E9B95\] {
+  color: #23252C !important;
+  font-weight: 600 !important;
+  line-height: 1.6 !important;
+}
+
+/* Container de lista de tópicos / bullet points */
+.theme-light section:nth-of-type(7) .bg-\[\#0E0F12\]\/70,
+.theme-light .lead-magnet-block .bg-\[\#0E0F12\]\/70 {
+  background-color: #F8F6F1 !important;
+  border: 1px solid #E2DBD0 !important;
+}
+
+.theme-light section:nth-of-type(7) .bg-\[\#0E0F12\]\/70 p,
+.theme-light .lead-magnet-block .bg-\[\#0E0F12\]\/70 p {
+  color: #7A551E !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(7) .text-zinc-300,
+.theme-light .lead-magnet-block .text-zinc-300 {
+  color: #1A1C22 !important;
+  font-weight: 600 !important;
+}
+
+/* Container do formulário */
+.theme-light section:nth-of-type(7) form,
+.theme-light .lead-magnet-block form {
+  background-color: #F9F7F3 !important;
+  border: 1px solid #E0D9CD !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-light section:nth-of-type(7) form .text-\[\#E8D5A0\],
+.theme-light .lead-magnet-block form .text-\[\#E8D5A0\] {
+  color: #7A551E !important;
+  font-weight: 700 !important;
+}
+
+/* Rótulos de formulário */
+.theme-light section:nth-of-type(7) form label,
+.theme-light .lead-magnet-block form label {
+  color: #22242B !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(7) form label span,
+.theme-light .lead-magnet-block form label span {
+  color: #595D69 !important;
+  font-weight: 600 !important;
+}
+
+/* Inputs de texto no formulário */
+.theme-light section:nth-of-type(7) input,
+.theme-light .lead-magnet-block input {
+  background-color: #FFFFFF !important;
+  border: 1px solid #CFC7B9 !important;
+  color: #111215 !important;
+  font-weight: 600 !important;
+}
+
+.theme-light section:nth-of-type(7) input::placeholder,
+.theme-light .lead-magnet-block input::placeholder {
+  color: #6C6F7A !important;
+  font-weight: 500 !important;
+}
+
+.theme-light section:nth-of-type(7) form .relative svg,
+.theme-light .lead-magnet-block form .relative svg {
+  color: #8C6527 !important;
+}
+
+/* Botão principal de download / CTA */
+.theme-light section:nth-of-type(7) button[type="submit"],
+.theme-light .lead-magnet-block button[type="submit"] {
+  background: linear-gradient(135deg, #C5973D 0%, #D4AF37 50%, #C5973D 100%) !important;
+  color: #0E0F12 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 18px rgba(197, 151, 61, 0.3) !important;
+}
+
+/* Aviso de privacidade / segurança */
+.theme-light section:nth-of-type(7) form div.text-\[\#9E9B95\],
+.theme-light .lead-magnet-block form div.text-\[\#9E9B95\],
+.theme-light section:nth-of-type(7) form div.text-\[\#9E9B95\] span,
+.theme-light .lead-magnet-block form div.text-\[\#9E9B95\] span {
+  color: #4A4D57 !important;
+  font-weight: 600 !important;
+}
+
+/* Estado desbloqueado (sucesso) */
+.theme-light section:nth-of-type(7) .bg-gradient-to-b.from-\[\#1C1F26\],
+.theme-light .lead-magnet-block .bg-gradient-to-b.from-\[\#1C1F26\] {
+  background: #F0FDF4 !important;
+  border: 1px solid #86EFAC !important;
+}
+
+.theme-light section:nth-of-type(7) .bg-gradient-to-b.from-\[\#1C1F26\] h4,
+.theme-light .lead-magnet-block .bg-gradient-to-b.from-\[\#1C1F26\] h4 {
+  color: #064E3B !important;
+  font-weight: 700 !important;
+}
+
+.theme-light section:nth-of-type(7) .bg-gradient-to-b.from-\[\#1C1F26\] p,
+.theme-light .lead-magnet-block .bg-gradient-to-b.from-\[\#1C1F26\] p {
+  color: #047857 !important;
+  font-weight: 600 !important;
+}
+
+/* ========================================================================== */
+/* ISOLAMENTO VISUAL: STUDIO PANEL & AUTH MODAL                               */
+/* Mantém o painel escuro de luxo profissional sem conflito de cores ou temas */
+/* ========================================================================== */
+.studio-panel-root,
+.auth-modal-root {
+  color-scheme: dark;
+}
+
+.studio-panel-root input,
+.studio-panel-root textarea,
+.studio-panel-root select,
+.auth-modal-root input {
+  color: #F8F7F4 !important;
+  background-color: #0E0F12 !important;
+}
+
+.studio-panel-root input::placeholder,
+.studio-panel-root textarea::placeholder,
+.auth-modal-root input::placeholder {
+  color: #71717A !important;
+}
+
+

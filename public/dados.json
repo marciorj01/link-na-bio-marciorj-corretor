@@ -1,0 +1,242 @@
+{
+  "adminPassword": "1234",
+  "profile": {
+    "name": "Márcio Rogério",
+    "subtitle": "Corretor de Imóveis & Avaliador Imobiliário",
+    "creci": "CRECI-PR 59138",
+    "phone": "5541999999999",
+    "city": "Mandirituba, Curitiba e Região",
+    "email": "marcioroger.gestor@gmail.com",
+    "instagram": "@marciorogeriocorretor",
+    "websiteUrl": "https://marciorjcorretor.com.br",
+    "positioningText": "Atuação em Mandirituba, Curitiba e região, além de oportunidades imobiliárias em outras localidades. Conectando pessoas a oportunidades com transparência e segurança.",
+    "avatarUrl": "",
+    "expertise": [
+      "Avaliação Imobiliária",
+      "Vistoria Técnica",
+      "Assessoria de Crédito",
+      "Mandirituba & Curitiba"
+    ]
+  },
+  "aboutBlock": {
+    "tag": "Apresentação Profissional",
+    "description": "Consultoria imobiliária especializada em Mandirituba, Curitiba e Região Metropolitana. Avaliação técnica, lançamentos e assessoria de crédito.",
+    "websiteLinkText": "Conheça minha trajetória completa no site oficial",
+    "websiteUrl": "https://marciorjcorretor.com.br"
+  },
+  "buyerBlock": {
+    "title": "Sua próxima compra.",
+    "description": "Receba uma seleção personalizada de casas, apartamentos, terrenos, chácaras ou lançamentos alinhados ao seu objetivo e perfil.",
+    "ctaText": "Converse sobre sua próxima compra",
+    "whatsappMessage": "Olá Márcio, gostaria de tirar dúvidas sobre crédito e imóveis."
+  },
+  "curatedBlock": {
+    "title": "Imóveis e oportunidades selecionadas.",
+    "description": "Uma curadoria de opções em Mandirituba, Curitiba e região metropolitana, abrangendo imóveis urbanos e rurais.",
+    "ctaText": "Conheça os imóveis e oportunidades",
+    "websiteUrl": "https://marciorjcorretor.com.br",
+    "properties": [
+      {
+        "id": "prop-1",
+        "title": "Chácara com Área Verde e Refúgio Natural",
+        "neighborhood": "Mandirituba e Região",
+        "type": "Chácara / Imóvel Rural",
+        "phrase": "Propriedade cercada por araucárias nativas, lago privativo e solo fértil. O refúgio perfeito entre tranquilidade e conveniência perto da capital.",
+        "specs": {
+          "area": "20.000 m²",
+          "typology": "Chácara Rural",
+          "highlight": "Nascente Própria"
+        },
+        "price": "Sob Consulta",
+        "tag": "Refúgio Rural",
+        "imageUrl": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80",
+        "whatsappInquiryText": "Olá Márcio, vi a Chácara com Área Verde no link da bio e gostaria de mais informações.",
+        "externalLink": "https://marciorjcorretor.com.br/imoveis/chacara-mandirituba"
+      },
+      {
+        "id": "prop-2",
+        "title": "Apartamento Urbano em Região Valorizada",
+        "neighborhood": "Curitiba e Região",
+        "type": "Apartamento",
+        "phrase": "Planta moderna e ensolarada em localização privilegiada, ideal para quem busca praticidade, segurança e excelente potencial de valorização.",
+        "specs": {
+          "area": "82 m²",
+          "bedrooms": "2 Quartos",
+          "suites": "1 Suíte",
+          "parking": "1 Vaga"
+        },
+        "price": "Sob Consulta",
+        "tag": "Urbano & Moderno",
+        "imageUrl": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+        "whatsappInquiryText": "Olá Márcio, vi o Apartamento Urbano no link da bio e quero agendar uma visita.",
+        "externalLink": "https://marciorjcorretor.com.br/imoveis/apartamento-curitiba"
+      },
+      {
+        "id": "prop-3",
+        "title": "Terreno Amplo para Construção ou Investimento",
+        "neighborhood": "Mandirituba / Fazenda Rio Grande",
+        "type": "Terreno / Lote",
+        "phrase": "Loteamento planejado com infraestrutura completa, topografia favorável e excelente valor de metro quadrado para construir ou investir.",
+        "specs": {
+          "area": "450 m²",
+          "typology": "Lote Residencial",
+          "highlight": "Pronto para Construir"
+        },
+        "price": "Sob Consulta",
+        "tag": "Oportunidade",
+        "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
+        "whatsappInquiryText": "Olá Márcio, vi o Terreno para Construção no link da bio e gostaria de receber a localização e valores.",
+        "externalLink": "https://marciorjcorretor.com.br/imoveis/terreno-mandirituba"
+      },
+      {
+        "id": "prop-4",
+        "title": "Residência Familiar com Espaço Gourmet",
+        "neighborhood": "Mandirituba e Região",
+        "type": "Casa Residencial",
+        "phrase": "Casa térrea com acabamento moderno, amplo quintal gramado, espaço gourmet e garagem coberta para sua família.",
+        "specs": {
+          "area": "190 m²",
+          "bedrooms": "3 Quartos",
+          "suites": "1 Suíte",
+          "parking": "2 Vagas"
+        },
+        "price": "Sob Consulta",
+        "tag": "Espaço & Conforto",
+        "imageUrl": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+        "whatsappInquiryText": "Olá Márcio, vi a Casa Residencial no link da bio e quero agendar uma visita.",
+        "externalLink": "https://marciorjcorretor.com.br/imoveis/casa-familiar"
+      }
+    ]
+  },
+  "featuredProject": {
+    "id": "feat-vm125",
+    "badge": "Parceria em Destaque — São Paulo",
+    "name": "Helbor VM125",
+    "neighborhood": "Vila Madalena · SP",
+    "phrase": "Parceria imobiliária trazendo oportunidades exclusivas de investimento e moradia de alto padrão em um dos bairros mais desejados de São Paulo.",
+    "ctaText": "Conheça o VM125",
+    "link": "https://marciorjcorretor.com.br/vm125",
+    "imageUrl": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+    "specs": {
+      "typology": "Residências de 145m² a 290m²",
+      "footage": "3 e 4 Suítes com Varanda Integrada",
+      "highlight": "Parceria exclusiva Curitiba · São Paulo"
+    },
+    "whatsappMessage": "Olá Márcio, vi o Helbor VM125 no link da bio e gostaria de receber plantas e detalhes."
+  },
+  "financingBlock": {
+    "title": "Assessoria & Financiamento Imobiliário",
+    "description": "Compare taxas entre bancos e parceiras e escolha a melhor condição para o seu perfil.",
+    "ctaText": "Simular Financiamento Gratuito",
+    "simulationUrl": "https://simular.credihome.com.br/marciorj-corretor",
+    "disclaimer": "*Simulação informativa sujeita à análise de crédito pelas instituições financeiras parceiras.",
+    "whatsappMessage": "Olá Márcio, gostaria de tirar dúvidas sobre crédito e imóveis.",
+    "cards": [
+      {
+        "id": "fin-simulator",
+        "title": "Simulador de crédito",
+        "badge": "",
+        "description": "Simule em múltiplos bancos (Caixa, Itaú, Bradesco, Santander) e encontre a menor taxa para o seu perfil.",
+        "buttonText": "Simular Financiamento Gratuito",
+        "buttonType": "url",
+        "url": "https://simular.credihome.com.br/marciorj-corretor",
+        "status": "active",
+        "enabled": true
+      },
+      {
+        "id": "fin-partner-1",
+        "title": "Parceira de financiamento",
+        "badge": "",
+        "description": "CrediHome by Loft: assessoria especializada e gratuita para aprovar seu crédito imobiliário com agilidade e as melhores condições.",
+        "buttonText": "Consultar no WhatsApp",
+        "buttonType": "whatsapp",
+        "whatsappMessage": "Olá Márcio, gostaria de tirar dúvidas e consultar a aprovação de crédito imobiliário com a parceira de financiamento.",
+        "status": "active",
+        "enabled": true
+      },
+      {
+        "id": "fin-partner-2",
+        "title": "Em breve",
+        "badge": "Em homologação",
+        "description": "Slot reservado para uma segunda parceira de financiamento que será ativada futuramente para ampliar ainda mais suas opções.",
+        "buttonText": "Em homologação",
+        "buttonType": "none",
+        "status": "coming_soon",
+        "enabled": true
+      }
+    ]
+  },
+  "sellerBlock": {
+    "title": "Quer vender ou alugar seu imóvel?",
+    "description": "Anuncie com quem é parceiro Loft e QuintoAndar. Para locação: seguro locação — você recebe todo mês, mesmo se o inquilino atrasar. Para venda: avaliação precisa, fotos profissionais e divulgação nas maiores vitrines do país.",
+    "ctaText": "Quero vender ou alugar meu imóvel",
+    "whatsappMessage": "Olá Márcio, tenho um imóvel e gostaria de conversar sobre avaliação, vistoria e possibilidades de venda ou locação.",
+    "comparisonNote": "A Loft oferece simulação de financiamento; o QuintoAndar não.",
+    "quintoAndarCtaText": "Cadastrar meu imóvel no QuintoAndar",
+    "quintoAndarUrl": "https://www.quintoandar.com.br/anunciar-imovel",
+    "cards": [
+      {
+        "id": "seller-card-loft",
+        "title": "Parceiro Loft",
+        "badge": "Venda & Locação",
+        "description": "Venda e locação nas maiores vitrines do país, com seguro locação garantido e simulação de financiamento.",
+        "buttonText": "Falar no WhatsApp",
+        "buttonType": "whatsapp",
+        "whatsappMessage": "Olá Márcio, tenho um imóvel e gostaria de conversar sobre a parceria com a Loft.",
+        "enabled": true
+      },
+      {
+        "id": "seller-card-quintoandar",
+        "title": "Parceiro QuintoAndar",
+        "badge": "100% Digital",
+        "description": "Venda e locação sem burocracia: fotos profissionais, visitas agendadas e contrato 100% digital.",
+        "buttonText": "Cadastrar meu imóvel",
+        "buttonType": "url",
+        "url": "https://www.quintoandar.com.br/anunciar-imovel",
+        "enabled": true
+      }
+    ]
+  },
+  "leadMagnet": {
+    "enabled": true,
+    "tag": "Material Gratuito Exclusivo",
+    "badgeText": "E-book em PDF · Download Imediato",
+    "title": "Guia do Investidor Imobiliário: Do Sul do Brasil a Miami",
+    "subtitle": "Como multiplicar e proteger seu patrimônio com imóveis de alta rentabilidade.",
+    "description": "Um material completo e prático preparado pelo corretor Márcio Rogério. Entenda as oportunidades em Curitiba e Região Metropolitana, as tendências de São Paulo e o passo a passo para dolarizar seu patrimônio na Flórida.",
+    "coverImageUrl": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
+    "bulletPoints": [
+      "Mapeamento dos polos de valorização no Paraná (Curitiba & Mandirituba)",
+      "Oportunidades de alto padrão e parcerias estratégicas em São Paulo",
+      "Como investir nos EUA (Miami/Flórida) com rentabilidade em dólar",
+      "Estratégias de crédito e simulação com as menores taxas bancárias"
+    ],
+    "downloadFileUrl": "https://marciorogeriocorretor.com.br/materiais/guia-investidor-imobiliario.pdf",
+    "buttonText": "Quero Baixar Meu Guia Gratuito",
+    "whatsappCtaText": "Receber também no meu WhatsApp",
+    "successMessage": "Acesso liberado com sucesso! Clique no botão abaixo para iniciar o download do seu guia."
+  },
+  "footer": {
+    "disclaimer": "As informações sobre imóveis, valores e disponibilidade devem ser confirmadas diretamente com o corretor responsável. Atendimento com responsabilidade e segurança em todas as etapas."
+  },
+  "theme": {
+    "presetName": "Ouro Nobre & Noir",
+    "primaryColor": "#C5973D",
+    "secondaryColor": "#E8D5A0",
+    "backgroundColor": "#0E0F12",
+    "cardBackgroundColor": "#16171B",
+    "fontTitle": "Cormorant Garamond",
+    "fontBody": "Plus Jakarta Sans",
+    "buttonShape": "rounded-xl"
+  },
+  "blockVisibility": {
+    "about": true,
+    "buyer": true,
+    "curated": true,
+    "featured": true,
+    "financing": true,
+    "seller": true,
+    "leadMagnet": true
+  },
+  "customBlocks": []
+}

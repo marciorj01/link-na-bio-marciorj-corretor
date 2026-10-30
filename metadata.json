@@ -1,0 +1,6 @@
+{
+  "name": "Marcio RJ Corretor - Imóveis de Alto Padrão no Rio de Janeiro",
+  "description": "Minisite vertical e link na bio para Márcio Rogério, Corretor de Imóveis CRECI-PR 59138. Atuação em Mandirituba, Curitiba e região, imóveis urbanos e rurais, avaliação e vistoria imobiliária.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
