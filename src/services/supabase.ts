@@ -242,7 +242,13 @@ create table if not exists public.leads (
 alter table public.site_config enable row level security;
 alter table public.leads enable row level security;
 
--- 4. Políticas de acesso para o minisite público e painel
+-- 4. Políticas de acesso idempotentes (podem ser executadas quantas vezes quiser)
+drop policy if exists "Leitura publica da configuracao" on public.site_config;
+drop policy if exists "Gravacao da configuracao pelo painel" on public.site_config;
+drop policy if exists "Atualizacao da configuracao pelo painel" on public.site_config;
+drop policy if exists "Gravacao publica de leads" on public.leads;
+drop policy if exists "Leitura de leads pelo corretor" on public.leads;
+
 create policy "Leitura publica da configuracao" on public.site_config for select using (true);
 create policy "Gravacao da configuracao pelo painel" on public.site_config for insert with check (true);
 create policy "Atualizacao da configuracao pelo painel" on public.site_config for update using (true);
