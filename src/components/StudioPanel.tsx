@@ -73,6 +73,7 @@ import {
   clearSupabaseCredentials,
   testSupabaseConnection,
   saveConfigToSupabase,
+  cleanSupabaseUrl,
   SUPABASE_SETUP_SQL,
 } from '../services/supabase';
 
@@ -862,17 +863,19 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
   const [copiedSql, setCopiedSql] = useState(false);
 
   const handleTestAndSaveSupabase = async () => {
-    if (!supabaseUrl.trim() || !supabaseAnonKey.trim()) {
+    const cleanedUrl = cleanSupabaseUrl(supabaseUrl);
+    setSupabaseUrl(cleanedUrl);
+    if (!cleanedUrl || !supabaseAnonKey.trim()) {
       alert('Por favor, informe a URL e a Chave Anônima (Anon Key) do seu projeto Supabase.');
       return;
     }
     setSupabaseTesting(true);
     setSupabaseFeedback(null);
-    const result = await testSupabaseConnection(supabaseUrl, supabaseAnonKey);
+    const result = await testSupabaseConnection(cleanedUrl, supabaseAnonKey);
     setSupabaseTesting(false);
     setSupabaseFeedback(result);
     if (result.success) {
-      saveSupabaseCredentials(supabaseUrl, supabaseAnonKey);
+      saveSupabaseCredentials(cleanedUrl, supabaseAnonKey);
       await saveConfigToSupabase(formData);
     }
   };
@@ -3837,6 +3840,19 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                   Conecte seu projeto gratuito do <strong className="text-white">Supabase</strong>. Ao salvar imóveis ou alterações neste painel (no PC ou celular), eles sincronizam <strong className="text-emerald-400">em tempo real para todos os clientes</strong> que clicarem no seu Link na Bio, sem precisar de Git push ou alteração de código!
                 </p>
 
+                <div className="p-3.5 rounded-lg bg-black/40 border border-blue-500/25 text-xs text-[#D4D2CD] space-y-2">
+                  <div className="font-semibold text-blue-300 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                    <span>Como ativar a tabela no Supabase em 1 minuto:</span>
+                  </div>
+                  <ol className="list-decimal list-inside space-y-1.5 text-[11px] text-[#C8CCD6]">
+                    <li>Clique no botão <strong className="text-white">"Copiar Script SQL do Banco"</strong> abaixo.</li>
+                    <li>No painel do seu projeto no Supabase, clique em <strong className="text-blue-300">SQL Editor</strong> (menu lateral esquerdo).</li>
+                    <li>Cole o código no editor e clique no botão verde <strong className="text-emerald-400">Run</strong>.</li>
+                    <li>Volte aqui e clique em <strong className="text-white">"Salvar & Conectar Supabase"</strong>!</li>
+                  </ol>
+                </div>
+
                 {supabaseFeedback && (
                   <div
                     className={`p-3 rounded-lg text-xs flex items-center gap-2 ${
@@ -3857,13 +3873,13 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                 <div className="space-y-2.5">
                   <div>
                     <label className="text-[11px] font-medium text-[#9E9B95] block mb-1">
-                      URL do Projeto Supabase
+                      URL do Projeto Supabase (Ex: https://xyz.supabase.co)
                     </label>
                     <input
                       type="text"
                       value={supabaseUrl}
-                      onChange={(e) => setSupabaseUrl(e.target.value)}
-                      placeholder="https://exemplo.supabase.co"
+                      onChange={(e) => setSupabaseUrl(cleanSupabaseUrl(e.target.value))}
+                      placeholder="https://rujmbhnwyxjzmezhqikw.supabase.co"
                       className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-blue-400/60 font-mono"
                     />
                   </div>
@@ -3875,7 +3891,7 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                     <input
                       type="password"
                       value={supabaseAnonKey}
-                      onChange={(e) => setSupabaseAnonKey(e.target.value)}
+                      onChange={(e) => setSupabaseAnonKey(e.target.value.trim())}
                       placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                       className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-blue-400/60 font-mono"
                     />

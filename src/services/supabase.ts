@@ -8,6 +8,19 @@ export interface SupabaseCredentials {
 export const SUPABASE_STORAGE_KEY = 'marciorogerio_supabase_credentials';
 
 /**
+ * Normaliza e limpa a URL do Supabase para o formato base:
+ * Remove sufixos comuns como /rest/v1, /rest/v1/ ou barras no final.
+ * Exemplo: 'https://xyz.supabase.co/rest/v1/' -> 'https://xyz.supabase.co'
+ */
+export function cleanSupabaseUrl(url: string): string {
+  if (!url) return '';
+  let clean = url.trim();
+  clean = clean.replace(/\/rest(\/v1)?\/?$/i, '');
+  clean = clean.replace(/\/+$/, '');
+  return clean;
+}
+
+/**
  * Obtém as credenciais do Supabase:
  * 1. Prioridade: Variáveis de ambiente Vite (.env ou painel da Netlify)
  * 2. Fallback: Configurações salvas diretamente pelo corretor no Painel Studio
@@ -18,7 +31,7 @@ export function getSupabaseCredentials(): SupabaseCredentials | null {
   const envKey = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
 
   if (envUrl && envKey && typeof envUrl === 'string' && typeof envKey === 'string') {
-    const cleanUrl = envUrl.trim().replace(/\/$/, '');
+    const cleanUrl = cleanSupabaseUrl(envUrl);
     const cleanKey = envKey.trim();
     if (cleanUrl.startsWith('http') && cleanKey.length > 10) {
       return { url: cleanUrl, anonKey: cleanKey };
@@ -32,7 +45,7 @@ export function getSupabaseCredentials(): SupabaseCredentials | null {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed.url && parsed.anonKey) {
-          const cleanUrl = String(parsed.url).trim().replace(/\/$/, '');
+          const cleanUrl = cleanSupabaseUrl(String(parsed.url));
           const cleanKey = String(parsed.anonKey).trim();
           if (cleanUrl.startsWith('http') && cleanKey.length > 10) {
             return { url: cleanUrl, anonKey: cleanKey };
@@ -52,7 +65,7 @@ export function getSupabaseCredentials(): SupabaseCredentials | null {
  */
 export function saveSupabaseCredentials(url: string, anonKey: string): void {
   if (typeof window === 'undefined') return;
-  const cleanUrl = url.trim().replace(/\/$/, '');
+  const cleanUrl = cleanSupabaseUrl(url);
   const cleanKey = anonKey.trim();
   localStorage.setItem(
     SUPABASE_STORAGE_KEY,
@@ -73,7 +86,7 @@ export function clearSupabaseCredentials(): void {
  */
 export async function testSupabaseConnection(url: string, anonKey: string): Promise<{ success: boolean; message: string }> {
   try {
-    const cleanUrl = url.trim().replace(/\/$/, '');
+    const cleanUrl = cleanSupabaseUrl(url);
     const cleanKey = anonKey.trim();
 
     if (!cleanUrl.startsWith('http')) {
@@ -237,3 +250,4 @@ create policy "Atualizacao da configuracao pelo painel" on public.site_config fo
 create policy "Gravacao publica de leads" on public.leads for insert with check (true);
 create policy "Leitura de leads pelo corretor" on public.leads for select using (true);
 `;
+
