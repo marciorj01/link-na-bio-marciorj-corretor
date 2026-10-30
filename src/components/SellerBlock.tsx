@@ -71,34 +71,9 @@ export const SellerBlock: React.FC<SellerBlockProps> = ({
         </div>
 
         {/* Title */}
-        <h2 className="text-2xl font-serif font-medium text-[#F8F7F4] mb-2">
+        <h2 className="text-2xl font-serif font-medium text-[#F8F7F4] mb-4">
           {title}
         </h2>
-
-        {/* Description / Support text */}
-        <p className="text-sm text-[#D4D2CD] leading-relaxed mb-5 font-light">
-          {description}
-        </p>
-
-        {/* Main WhatsApp CTA Button */}
-        <div className="mb-6">
-          <a
-            href={mainWhatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between w-full min-h-[52px] px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#C5973D] via-[#D4AF37] to-[#B8872F] text-[#0E0F12] font-semibold text-sm tracking-wide shadow-lg shadow-[#C5973D]/20 hover:brightness-105 active:scale-[0.99] transition-all group/btn"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#0E0F12]/15 flex items-center justify-center">
-                <Key className="w-4 h-4 stroke-[2.2]" />
-              </div>
-              <span className="font-semibold text-left leading-tight">
-                {ctaText}
-              </span>
-            </div>
-            <ArrowRight className="w-4 h-4 stroke-[2.2] transform group-hover/btn:translate-x-1 transition-transform shrink-0 ml-2" />
-          </a>
-        </div>
 
         {/* 2 Separate Partnership Cards: container grid responsivo com auto-fit minmax(280px, 1fr) */}
         <div
