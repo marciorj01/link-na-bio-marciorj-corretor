@@ -30,6 +30,10 @@ export function deepMergePreservingUserEdits(
         userCustom.profile?.avatarUrl && userCustom.profile.avatarUrl.trim() !== ''
           ? userCustom.profile.avatarUrl
           : defaults.profile?.avatarUrl || '',
+      qrCodeUrl:
+        userCustom.profile?.qrCodeUrl && userCustom.profile.qrCodeUrl.trim() !== ''
+          ? userCustom.profile.qrCodeUrl
+          : defaults.profile?.qrCodeUrl || '',
       expertise: Array.isArray(userCustom.profile?.expertise) && userCustom.profile.expertise.length > 0
         ? userCustom.profile.expertise
         : defaults.profile.expertise,

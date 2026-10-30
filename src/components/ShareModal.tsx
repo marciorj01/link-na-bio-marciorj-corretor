@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { X, Copy, Check, MessageCircle, Share2, Smartphone, Upload, Image as ImageIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Copy, Check, MessageCircle, Share2, Smartphone } from 'lucide-react';
 import { formatWhatsAppUrl } from '../utils/whatsapp';
-
-const QRCODE_STORAGE_KEY = 'marciorogerio_custom_qrcode';
 
 interface ShareModalProps {
   name: string;
   isOpen: boolean;
   onClose: () => void;
   phone: string;
+  qrCodeUrl?: string;
 }
 
 export const ShareModal: React.FC<ShareModalProps> = ({
@@ -16,21 +15,10 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   isOpen,
   onClose,
   phone,
+  qrCodeUrl,
 }) => {
   const [copied, setCopied] = useState(false);
-  const [qrCodeImage, setQrCodeImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://marciorjcorretor.com.br';
-
-  // Carregar QR Code salvo no localStorage
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(QRCODE_STORAGE_KEY);
-      if (saved) setQrCodeImage(saved);
-    } catch (e) {
-      // storage disabled
-    }
-  }, []);
 
   if (!isOpen) return null;
 
@@ -40,48 +28,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleQrUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // Validar que é imagem
-    if (!file.type.startsWith('image/')) {
-      alert('Por favor, selecione uma imagem (PNG, JPG ou WEBP).');
-      return;
-    }
-
-    // Limitar tamanho a 2MB
-    if (file.size > 2 * 1024 * 1024) {
-      alert('A imagem deve ter no máximo 2MB.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const dataUrl = e.target?.result as string;
-      setQrCodeImage(dataUrl);
-      try {
-        localStorage.setItem(QRCODE_STORAGE_KEY, dataUrl);
-      } catch (err) {
-        console.warn('Não foi possível salvar QR Code no localStorage:', err);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveQr = () => {
-    setQrCodeImage(null);
-    try {
-      localStorage.removeItem(QRCODE_STORAGE_KEY);
-    } catch (e) {
-      // ignore
-    }
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const shareWhatsAppMessage = `Olá! Segue o contato de ${name}, corretor de imóveis (CRECI-PR 59138) em Mandirituba, Curitiba e região: ${currentUrl}`;
+  const shareWhatsAppMessage = `Olá! Segue o contato de ${name}, corretor de imóveis (CRECI-PR 59138) em Curitiba, Mandirituba e região: ${currentUrl}`;
   const shareWhatsAppUrl = formatWhatsAppUrl(phone, shareWhatsAppMessage);
 
   return (
@@ -92,7 +39,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-[#9E9B95] hover:text-white flex items-center justify-center transition-colors"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-[#9E9B95] hover:text-white flex items-center justify-center transition-colors cursor-pointer"
           aria-label="Fechar"
         >
           <X className="w-4 h-4" />
@@ -106,72 +53,83 @@ export const ShareModal: React.FC<ShareModalProps> = ({
           Compartilhar Bio & Contato
         </h3>
         <p className="text-xs text-[#9E9B95] mb-5">
-          {qrCodeImage
-            ? 'Aponte a câmera do celular para abrir o minisite ou envie o link diretamente.'
-            : 'Envie seu QR Code personalizado para compartilhar o minisite.'}
+          Aponte a câmera do celular para abrir o minisite ou envie o link diretamente.
         </p>
 
-        {/* QR Code Area */}
-        <div className="p-3.5 bg-white rounded-xl shadow-inner mb-4 flex flex-col items-center min-w-[180px]">
-          {qrCodeImage ? (
-            <>
-              <img
-                src={qrCodeImage}
-                alt="QR Code personalizado"
-                className="w-40 h-40 object-contain"
-              />
-              <span className="text-[10px] font-mono uppercase text-[#151619]/60 tracking-wider mt-1">
-                marciorogeriocorretor.com.br
-              </span>
-            </>
+        {/* QR Code Display Area (100% público e protegido) */}
+        <div className="p-3.5 bg-white rounded-xl shadow-inner mb-5 flex flex-col items-center min-w-[180px]">
+          {qrCodeUrl && qrCodeUrl.trim() !== '' ? (
+            <img
+              src={qrCodeUrl}
+              alt={`QR Code - ${name}`}
+              className="w-40 h-40 object-contain rounded-lg"
+            />
           ) : (
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="w-40 h-40 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#C5973D] hover:bg-[#C5973D]/5 transition-colors cursor-pointer group"
+            <svg
+              viewBox="0 0 120 120"
+              className="w-40 h-40"
+              fill="#0E0F12"
             >
-              <ImageIcon className="w-8 h-8 text-gray-400 group-hover:text-[#C5973D] transition-colors" />
-              <span className="text-[11px] font-medium text-gray-500 group-hover:text-[#C5973D] transition-colors text-center leading-tight">
-                Clique para subir<br />seu QR Code
-              </span>
-            </button>
+              {/* Corner finder patterns */}
+              <rect x="10" y="10" width="30" height="30" rx="3" fill="#0E0F12" />
+              <rect x="16" y="16" width="18" height="18" rx="2" fill="#FFFFFF" />
+              <rect x="21" y="21" width="8" height="8" rx="1" fill="#C5973D" />
+
+              <rect x="80" y="10" width="30" height="30" rx="3" fill="#0E0F12" />
+              <rect x="86" y="16" width="18" height="18" rx="2" fill="#FFFFFF" />
+              <rect x="91" y="21" width="8" height="8" rx="1" fill="#C5973D" />
+
+              <rect x="10" y="80" width="30" height="30" rx="3" fill="#0E0F12" />
+              <rect x="16" y="86" width="18" height="18" rx="2" fill="#FFFFFF" />
+              <rect x="21" y="91" width="8" height="8" rx="1" fill="#C5973D" />
+
+              {/* Simulated QR data matrix dots */}
+              <rect x="46" y="12" width="6" height="6" rx="1" />
+              <rect x="56" y="12" width="6" height="6" rx="1" />
+              <rect x="66" y="18" width="6" height="6" rx="1" />
+              <rect x="46" y="26" width="6" height="6" rx="1" />
+              <rect x="58" y="26" width="6" height="6" rx="1" />
+              
+              <rect x="14" y="46" width="6" height="6" rx="1" />
+              <rect x="24" y="52" width="6" height="6" rx="1" />
+              <rect x="34" y="46" width="6" height="6" rx="1" />
+              
+              <rect x="46" y="46" width="8" height="8" rx="1" fill="#C5973D" />
+              <rect x="58" y="46" width="6" height="6" rx="1" />
+              <rect x="68" y="52" width="6" height="6" rx="1" />
+              <rect x="80" y="46" width="6" height="6" rx="1" />
+              <rect x="92" y="46" width="6" height="6" rx="1" />
+              <rect x="102" y="52" width="6" height="6" rx="1" />
+              
+              <rect x="46" y="60" width="6" height="6" rx="1" />
+              <rect x="58" y="62" width="6" height="6" rx="1" />
+              <rect x="70" y="60" width="6" height="6" rx="1" />
+              
+              <rect x="14" y="68" width="6" height="6" rx="1" />
+              <rect x="26" y="66" width="6" height="6" rx="1" />
+              <rect x="36" y="70" width="6" height="6" rx="1" />
+
+              <rect x="46" y="80" width="6" height="6" rx="1" />
+              <rect x="58" y="84" width="6" height="6" rx="1" />
+              <rect x="70" y="80" width="6" height="6" rx="1" />
+              <rect x="82" y="72" width="6" height="6" rx="1" />
+              <rect x="94" y="80" width="6" height="6" rx="1" />
+              <rect x="84" y="92" width="6" height="6" rx="1" />
+              <rect x="98" y="94" width="6" height="6" rx="1" />
+              <rect x="52" y="98" width="6" height="6" rx="1" />
+              <rect x="66" y="98" width="6" height="6" rx="1" />
+            </svg>
           )}
+          <span className="text-[10px] font-mono uppercase text-[#151619]/60 tracking-wider mt-1.5">
+            marciorjcorretor.com.br
+          </span>
         </div>
 
-        {/* Upload / Change / Remove QR Code buttons */}
-        <div className="flex items-center gap-2 mb-3">
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium text-[#E8D5A0] bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
-          >
-            <Upload className="w-3.5 h-3.5" />
-            <span>{qrCodeImage ? 'Trocar QR Code' : 'Subir QR Code'}</span>
-          </button>
-
-          {qrCodeImage && (
-            <button
-              onClick={handleRemoveQr}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-red-400 bg-white/5 hover:bg-red-500/10 border border-white/10 transition-colors"
-            >
-              <X className="w-3 h-3" />
-              <span>Remover</span>
-            </button>
-          )}
-        </div>
-
-        {/* Hidden file input */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/png,image/jpeg,image/webp,image/svg+xml"
-          onChange={handleQrUpload}
-          className="hidden"
-        />
-
-        {/* Copy Link Button */}
+        {/* Action Buttons: Copy Link & Share via WhatsApp */}
         <div className="w-full space-y-2">
           <button
             onClick={handleCopy}
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-medium text-[#F8F7F4] border border-white/10 transition-colors"
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-medium text-[#F8F7F4] border border-white/10 transition-colors cursor-pointer"
           >
             {copied ? (
               <>

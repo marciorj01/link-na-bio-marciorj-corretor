@@ -42,6 +42,7 @@ import {
   Calculator,
   Clock,
   Info,
+  QrCode,
 } from 'lucide-react';
 import {
   SiteConfig,
@@ -1366,6 +1367,76 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                           setFormData((prev) => ({
                             ...prev,
                             profile: { ...prev.profile, avatarUrl: base64 },
+                          }));
+                        });
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+
+              {/* QR Code Personalizado do Minisite */}
+              <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/8 space-y-3">
+                <div className="flex items-center gap-2">
+                  <QrCode className="w-4 h-4 text-[#C5973D]" />
+                  <label className="text-xs font-medium text-[#E8D5A0]">
+                    QR Code do Minisite (Compartilhamento)
+                  </label>
+                </div>
+                <p className="text-[11px] text-[#9E9B95] leading-relaxed">
+                  Suba a imagem do seu QR Code oficial. Ela será exibida com exclusividade aos clientes quando clicarem no botão "QR Code" ou "Compartilhar".
+                </p>
+
+                {formData.profile.qrCodeUrl ? (
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={formData.profile.qrCodeUrl}
+                      alt="Preview QR Code"
+                      className="w-16 h-16 rounded-xl object-contain bg-white p-1 border-2 border-[#C5973D]"
+                    />
+                    <div className="space-y-1">
+                      <span className="text-[11px] text-emerald-400 block font-medium">
+                        ✓ QR Code personalizado ativo
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setFormData({
+                            ...formData,
+                            profile: { ...formData.profile, qrCodeUrl: '' },
+                          })
+                        }
+                        className="text-xs text-red-400 hover:underline cursor-pointer"
+                      >
+                        Remover QR Code (usar padrão vetorial)
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+
+                <label className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-lg bg-[#20232A] hover:bg-[#282C35] text-xs font-medium text-[#F8F7F4] border border-white/10 cursor-pointer transition-colors">
+                  {compressingTarget === 'qrcode' ? (
+                    <>
+                      <Loader2 className="w-4 h-4 text-[#C5973D] animate-spin" />
+                      <span>Otimizando QR Code...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4 text-[#C5973D]" />
+                      <span>{formData.profile.qrCodeUrl ? 'Trocar Imagem do QR Code' : 'Subir Imagem do QR Code'}</span>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(file, 'qrcode', (base64) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            profile: { ...prev.profile, qrCodeUrl: base64 },
                           }));
                         });
                       }

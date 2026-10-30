@@ -591,6 +591,7 @@ export default function App() {
             isOpen={isShareOpen}
             onClose={() => setIsShareOpen(false)}
             phone={activeConfig.profile.phone}
+            qrCodeUrl={activeConfig.profile.qrCodeUrl}
           />
         )}
 

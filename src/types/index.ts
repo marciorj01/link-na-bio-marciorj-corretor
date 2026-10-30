@@ -155,6 +155,7 @@ export interface SiteConfig {
     websiteUrl: string;
     positioningText: string;
     avatarUrl: string;
+    qrCodeUrl?: string;
     city?: string;
     email?: string;
     expertise?: string[];
