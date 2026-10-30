@@ -159,7 +159,7 @@ export function deepMergePreservingUserEdits(
   return merged;
 }
 
-const SAFETY_SNAPSHOT_KEY = 'marciorogerio_minisite_safety_snapshot';
+export const SAFETY_SNAPSHOT_KEY = 'marciorogerio_minisite_safety_snapshot';
 
 /**
  * Salva uma cópia de segurança instantânea no navegador antes de qualquer operação

@@ -3922,6 +3922,16 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
 
               <button
                 type="button"
+                onClick={handleRestoreSnapshot}
+                className="flex items-center gap-1 px-2.5 py-2 rounded-lg bg-[#20232A] hover:bg-[#282C35] text-[11px] font-medium text-amber-300/90 hover:text-amber-200 border border-amber-500/30 transition-colors cursor-pointer shadow-sm"
+                title="Recuperar a última versão salva automaticamente antes de qualquer perda"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+                <span>Recuperar Snapshot</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={() => backupFileRef.current?.click()}
                 className="flex items-center gap-1 px-2.5 py-2 rounded-lg bg-[#181A20] hover:bg-[#22252D] text-[11px] font-medium text-white/80 hover:text-white border border-white/15 transition-colors cursor-pointer"
                 title="Restaurar arquivo .json de backup do seu computador"

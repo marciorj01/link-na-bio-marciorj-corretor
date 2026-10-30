@@ -7,7 +7,7 @@ import { StoryModeFrame } from './components/StoryModeFrame';
 import { MessageCircle, Sliders } from 'lucide-react';
 import { formatWhatsAppUrl } from './utils/whatsapp';
 import { useColorMode } from './hooks/useColorMode';
-import { deepMergePreservingUserEdits, saveSafetySnapshot } from './utils/configMerge';
+import { deepMergePreservingUserEdits, saveSafetySnapshot, loadSafetySnapshot, SAFETY_SNAPSHOT_KEY } from './utils/configMerge';
 
 // Lazy loading dos blocos do minisite para máxima performance e carregamento inicial veloz
 const AboutBlock = lazy(() => import('./components/AboutBlock').then((m) => ({ default: m.AboutBlock })));
@@ -95,6 +95,13 @@ export default function App() {
           // Mesclagem profunda não-destrutiva: nunca perde personalizações do usuário
           return deepMergePreservingUserEdits(DEFAULT_CONFIG, parsed);
         }
+
+        // Recuperação de emergência: se STORAGE_KEY estiver ausente mas houver snapshot de segurança salvo, restaura
+        const snapshot = loadSafetySnapshot();
+        if (snapshot && snapshot.config && snapshot.config.profile) {
+          console.info('Configuração recuperada do snapshot de segurança');
+          return deepMergePreservingUserEdits(DEFAULT_CONFIG, snapshot.config);
+        }
       } catch (err) {
         console.error('Failed to load stored config', err);
       }
@@ -168,14 +175,21 @@ export default function App() {
           const remoteData = await res.json();
           if (remoteData && remoteData.profile && isMounted) {
             setConfig((prev) => {
-              // Mescla dados remotos garantindo que fotos e textos gravados no servidor prevaleçam e complementem
-              const merged = deepMergePreservingUserEdits(prev, remoteData);
-              try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-              } catch (e) {
-                // Quota storage ignore
+              // Verifica se o usuário tem edições salvas no navegador
+              const hasUserSaved = typeof window !== 'undefined' && (
+                localStorage.getItem(STORAGE_KEY) !== null ||
+                localStorage.getItem(SAFETY_SNAPSHOT_KEY) !== null
+              );
+
+              // SE O USUÁRIO TEM EDIÇÕES LOCAIS:
+              // As edições do usuário (prev) SEMPRE PREVALECEM como userCustom!
+              // O remoteData atua apenas como base para campos novos, nunca substituindo o que o usuário fez.
+              if (hasUserSaved) {
+                return deepMergePreservingUserEdits(remoteData, prev);
               }
-              return merged;
+
+              // Se for um novo visitante ou sem edições no navegador, usa os dados remotos
+              return deepMergePreservingUserEdits(DEFAULT_CONFIG, remoteData);
             });
           }
         }
