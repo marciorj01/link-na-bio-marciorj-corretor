@@ -43,6 +43,7 @@ import {
   Clock,
   Info,
   QrCode,
+  Database,
 } from 'lucide-react';
 import {
   SiteConfig,
@@ -66,6 +67,14 @@ import {
   loadSafetySnapshot,
   deepMergePreservingUserEdits,
 } from '../utils/configMerge';
+import {
+  getSupabaseCredentials,
+  saveSupabaseCredentials,
+  clearSupabaseCredentials,
+  testSupabaseConnection,
+  saveConfigToSupabase,
+  SUPABASE_SETUP_SQL,
+} from '../services/supabase';
 
 interface StudioPanelProps {
   isOpen: boolean;
@@ -284,9 +293,19 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
     // 1. Salva no estado do React e no localStorage
     onSave(configWithTimestamp);
 
-    // 2. Envia para o servidor (/api/salvar ou ./salvar.php) para persistência permanente em disco
+    // 2. Envia para a nuvem (Supabase) e/ou servidor (/api/salvar ou ./salvar.php)
     let serverSuccess = false;
     let message = 'Salvo com sucesso!';
+
+    try {
+      const supabaseSaved = await saveConfigToSupabase(configWithTimestamp);
+      if (supabaseSaved) {
+        serverSuccess = true;
+        message = 'Alterações salvas na Nuvem (Supabase) e no dispositivo!';
+      }
+    } catch (e) {
+      // ignore
+    }
 
     const payload = {
       password: formData.adminPassword || '1234',
@@ -320,8 +339,10 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
         }
       }
     } catch (err) {
-      console.info('Servidor offline ou sem suporte a gravação em disco. Salvo no navegador.');
-      message = 'Salvo com sucesso no seu dispositivo!';
+      if (!serverSuccess) {
+        console.info('Servidor offline ou sem suporte a gravação em disco. Salvo no navegador.');
+        message = 'Salvo com sucesso no seu dispositivo!';
+      }
     }
 
     setIsSaving(false);
@@ -831,6 +852,44 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
     navigator.clipboard.writeText(code);
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 2500);
+  };
+
+  // Gerenciamento de conexão com o Supabase (Nuvem em tempo real)
+  const [supabaseUrl, setSupabaseUrl] = useState(() => getSupabaseCredentials()?.url || '');
+  const [supabaseAnonKey, setSupabaseAnonKey] = useState(() => getSupabaseCredentials()?.anonKey || '');
+  const [supabaseTesting, setSupabaseTesting] = useState(false);
+  const [supabaseFeedback, setSupabaseFeedback] = useState<{ success: boolean; message: string } | null>(null);
+  const [copiedSql, setCopiedSql] = useState(false);
+
+  const handleTestAndSaveSupabase = async () => {
+    if (!supabaseUrl.trim() || !supabaseAnonKey.trim()) {
+      alert('Por favor, informe a URL e a Chave Anônima (Anon Key) do seu projeto Supabase.');
+      return;
+    }
+    setSupabaseTesting(true);
+    setSupabaseFeedback(null);
+    const result = await testSupabaseConnection(supabaseUrl, supabaseAnonKey);
+    setSupabaseTesting(false);
+    setSupabaseFeedback(result);
+    if (result.success) {
+      saveSupabaseCredentials(supabaseUrl, supabaseAnonKey);
+      await saveConfigToSupabase(formData);
+    }
+  };
+
+  const handleDisconnectSupabase = () => {
+    if (window.confirm('Deseja desconectar o Supabase deste painel?')) {
+      clearSupabaseCredentials();
+      setSupabaseUrl('');
+      setSupabaseAnonKey('');
+      setSupabaseFeedback({ success: false, message: 'Supabase desconectado.' });
+    }
+  };
+
+  const handleCopySql = () => {
+    navigator.clipboard.writeText(SUPABASE_SETUP_SQL);
+    setCopiedSql(true);
+    setTimeout(() => setCopiedSql(false), 3000);
   };
 
   const handleImportBackup = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -3751,6 +3810,127 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                 <p className="text-xs text-[#D4D2CD] leading-relaxed">
                   Suas alterações locais têm <strong className="text-white">prioridade absoluta</strong>. O sistema utiliza um motor de mesclagem não-destrutiva (<em>Deep Merge</em>): mesmo que o desenvolvedor ou a IA do Google AI Studio atualizem o código do site ou adicionem novos blocos, <strong className="text-[#E8D5A0]">seus textos, fotos cadastradas e cores não serão sobrescritos ou apagados</strong>.
                 </p>
+              </div>
+
+              {/* CARD: CONEXÃO COM BANCO DE DADOS EM NUVEM (SUPABASE) */}
+              <div className="p-4 rounded-xl bg-gradient-to-br from-[#121824] via-[#10141D] to-[#0D1017] border border-blue-500/30 space-y-3.5 shadow-md">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Database className="w-4 h-4 text-blue-400" />
+                    <label className="text-xs font-semibold text-blue-200 uppercase tracking-wider block">
+                      Banco de Dados em Nuvem (Supabase 100% Gratuito)
+                    </label>
+                  </div>
+                  {getSupabaseCredentials() ? (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Conectado
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/5 text-[#9E9B95] border border-white/10">
+                      Não configurado
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-xs text-[#C8CCD6] leading-relaxed">
+                  Conecte seu projeto gratuito do <strong className="text-white">Supabase</strong>. Ao salvar imóveis ou alterações neste painel (no PC ou celular), eles sincronizam <strong className="text-emerald-400">em tempo real para todos os clientes</strong> que clicarem no seu Link na Bio, sem precisar de Git push ou alteração de código!
+                </p>
+
+                {supabaseFeedback && (
+                  <div
+                    className={`p-3 rounded-lg text-xs flex items-center gap-2 ${
+                      supabaseFeedback.success
+                        ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
+                        : 'bg-red-500/15 border border-red-500/30 text-red-300'
+                    }`}
+                  >
+                    {supabaseFeedback.success ? (
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    ) : (
+                      <Info className="w-4 h-4 text-red-400 shrink-0" />
+                    )}
+                    <span>{supabaseFeedback.message}</span>
+                  </div>
+                )}
+
+                <div className="space-y-2.5">
+                  <div>
+                    <label className="text-[11px] font-medium text-[#9E9B95] block mb-1">
+                      URL do Projeto Supabase
+                    </label>
+                    <input
+                      type="text"
+                      value={supabaseUrl}
+                      onChange={(e) => setSupabaseUrl(e.target.value)}
+                      placeholder="https://exemplo.supabase.co"
+                      className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-blue-400/60 font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-medium text-[#9E9B95] block mb-1">
+                      Chave Anônima Pública (Anon Key)
+                    </label>
+                    <input
+                      type="password"
+                      value={supabaseAnonKey}
+                      onChange={(e) => setSupabaseAnonKey(e.target.value)}
+                      placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      className="w-full px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-blue-400/60 font-mono"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  <button
+                    type="button"
+                    disabled={supabaseTesting}
+                    onClick={handleTestAndSaveSupabase}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-xs font-medium text-white transition-colors cursor-pointer shadow-sm"
+                  >
+                    {supabaseTesting ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Testando conexão...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Database className="w-3.5 h-3.5" />
+                        <span>Salvar & Conectar Supabase</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleCopySql}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-medium text-[#D4D2CD] hover:text-white border border-white/10 transition-colors cursor-pointer"
+                    title="Copiar comando SQL para colar no editor do Supabase"
+                  >
+                    {copiedSql ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Script SQL Copiado!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-[#C5973D]" />
+                        <span>Copiar Script SQL do Banco</span>
+                      </>
+                    )}
+                  </button>
+
+                  {getSupabaseCredentials() && (
+                    <button
+                      type="button"
+                      onClick={handleDisconnectSupabase}
+                      className="text-xs text-red-400/80 hover:text-red-300 ml-auto cursor-pointer"
+                    >
+                      Desconectar
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* CARD 2: BACKUP EM ARQUIVO JSON & RESTAURAÇÃO (1 CLIQUE) */}

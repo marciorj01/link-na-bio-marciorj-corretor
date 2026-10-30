@@ -8,6 +8,7 @@ import { MessageCircle, Sliders } from 'lucide-react';
 import { formatWhatsAppUrl } from './utils/whatsapp';
 import { useColorMode } from './hooks/useColorMode';
 import { deepMergePreservingUserEdits, saveSafetySnapshot, loadSafetySnapshot, SAFETY_SNAPSHOT_KEY } from './utils/configMerge';
+import { fetchConfigFromSupabase, saveLeadToSupabase } from './services/supabase';
 
 // Lazy loading dos blocos do minisite para máxima performance e carregamento inicial veloz
 const AboutBlock = lazy(() => import('./components/AboutBlock').then((m) => ({ default: m.AboutBlock })));
@@ -161,12 +162,29 @@ export default function App() {
     }
   }, [isEditorOpen, isAuthenticated]);
 
-  // Sincronização automática com dados gravados no servidor (/api/config ou dados.json)
+  // Sincronização automática com dados gravados no servidor ou na nuvem (Supabase / api / dados.json)
   // Garante que fotos, textos e customizações feitas no painel nunca sejam perdidas entre sessões, abas ou recompilações
   useEffect(() => {
     let isMounted = true;
     const fetchServerConfig = async () => {
       try {
+        // 1. Tenta carregar primeiro da nuvem (Supabase) se configurado
+        const supabaseData = await fetchConfigFromSupabase();
+        if (supabaseData && supabaseData.profile && isMounted) {
+          setConfig((prev) => {
+            const hasLocalSaved = typeof window !== 'undefined' && (
+              localStorage.getItem(STORAGE_KEY) !== null ||
+              localStorage.getItem(SAFETY_SNAPSHOT_KEY) !== null
+            );
+            if (hasLocalSaved) {
+              return deepMergePreservingUserEdits(supabaseData, prev);
+            }
+            return deepMergePreservingUserEdits(DEFAULT_CONFIG, supabaseData);
+          });
+          return;
+        }
+
+        // 2. Fallback: servidor local (/api/config) ou dados.json estático
         let res = await fetch(`/api/config?t=${Date.now()}`);
         if (!res.ok) {
           res = await fetch(`./dados.json?t=${Date.now()}`);
@@ -311,6 +329,7 @@ export default function App() {
   };
 
   const handleLeadCaptured = (newLead: CapturedLead) => {
+    saveLeadToSupabase(newLead).catch(() => {});
     setConfig((prev) => {
       const existingLeads = prev.capturedLeads || [];
       const updated = {
