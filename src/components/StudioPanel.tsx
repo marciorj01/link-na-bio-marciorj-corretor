@@ -45,6 +45,7 @@ import {
   QrCode,
   Database,
   Landmark,
+  FileDown,
 } from 'lucide-react';
 import {
   SiteConfig,
@@ -2047,6 +2048,46 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                     Quando preenchido, os visitantes poderão abrir a ficha deste imóvel diretamente no seu site oficial.
                   </p>
                 </div>
+
+                {/* Configuração de Apresentação e Plantas (PDF no Supabase Storage) */}
+                <div className="p-3 rounded-lg bg-black/40 border border-white/5 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] text-[#E8D5A0] font-medium flex items-center gap-1.5">
+                      <FileDown className="w-3.5 h-3.5 text-[#C5973D]" />
+                      <span>Botão &quot;Baixar Apresentação e Plantas (PDF)&quot;</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={currentProperty.pdfEnabled ?? Boolean(currentProperty.pdfFilename)}
+                        onChange={(e) => updateCurrentProperty({ pdfEnabled: e.target.checked })}
+                        className="rounded accent-[#C5973D] w-3.5 h-3.5"
+                      />
+                      <span className="text-[10px] text-[#9E9B95]">Ativar botão</span>
+                    </label>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] text-[#9E9B95] mb-1">
+                      Nome do arquivo PDF no Supabase Storage (bucket &quot;plantas&quot;)
+                    </label>
+                    <input
+                      type="text"
+                      value={currentProperty.pdfFilename || ''}
+                      onChange={(e) =>
+                        updateCurrentProperty({
+                          pdfFilename: e.target.value.trim(),
+                          pdfEnabled: e.target.value.trim() !== '' ? true : currentProperty.pdfEnabled,
+                        })
+                      }
+                      placeholder="ex: bioma-curitiba.pdf ou helbor-vm125-apresentacao.pdf"
+                      className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none font-mono"
+                    />
+                    <p className="text-[10px] text-[#71717A] mt-1 leading-relaxed">
+                      Ao preencher, o botão &quot;Baixar Apresentação e Plantas (PDF)&quot; aparece abaixo de &quot;Ver detalhes&quot; e &quot;Consultar&quot; no card. O cliente preenche Nome e WhatsApp (salvos na tabela leads do Supabase) e recebe o PDF assinado na hora!
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -2198,6 +2239,45 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                     }}
                   />
                 </label>
+              </div>
+
+              {/* Material em PDF do Destaque */}
+              <div className="p-3.5 rounded-xl bg-black/40 border border-white/8 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs text-[#E8D5A0] font-medium flex items-center gap-1.5">
+                    <FileDown className="w-3.5 h-3.5 text-[#C5973D]" />
+                    <span>Material em PDF (Plantas & Apresentação)</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.featuredProject.pdfEnabled ?? true}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          featuredProject: { ...formData.featuredProject, pdfEnabled: e.target.checked },
+                        })
+                      }
+                      className="rounded accent-[#C5973D] w-3.5 h-3.5"
+                    />
+                    <span className="text-[10px] text-[#9E9B95]">Ativo</span>
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  value={formData.featuredProject.pdfFilename || 'helbor-vm125-apresentacao.pdf'}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      featuredProject: { ...formData.featuredProject, pdfFilename: e.target.value.trim() },
+                    })
+                  }
+                  placeholder="helbor-vm125-apresentacao.pdf"
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none font-mono"
+                />
+                <p className="text-[10px] text-[#71717A] leading-relaxed">
+                  Nome exato do arquivo no bucket &quot;plantas&quot; do Supabase Storage. O botão &quot;Baixar Apresentação e Plantas (PDF)&quot; baixa esse arquivo após capturar o lead.
+                </p>
               </div>
             </div>
           )}

@@ -8,6 +8,7 @@ interface DownloadPlantsModalProps {
   onClose: () => void;
   projectName?: string;
   pdfFilename?: string;
+  propertyId?: string;
   phone: string;
 }
 
@@ -16,6 +17,7 @@ export const DownloadPlantsModal: React.FC<DownloadPlantsModalProps> = ({
   onClose,
   projectName = 'Helbor VM125',
   pdfFilename = 'helbor-vm125-apresentacao.pdf',
+  propertyId,
   phone,
 }) => {
   const [name, setName] = useState('');
@@ -60,11 +62,16 @@ export const DownloadPlantsModal: React.FC<DownloadPlantsModalProps> = ({
 
     try {
       // 1. Grava o lead no Supabase na tabela 'leads'
-      await insertLead({
+      const leadInsertResult = await insertLead({
         nome: name.trim(),
         telefone: whatsapp.trim(),
         empreendimento: projectName,
+        property_id: propertyId,
       });
+
+      if (!leadInsertResult.success) {
+        console.warn('Aviso: retorno de inserção de lead:', leadInsertResult.error);
+      }
 
       // 2. Gera URL temporária e assinada de 120 segundos do bucket privado 'plantas'
       const storageResult = await createSignedStorageUrl('plantas', pdfFilename, 120);
@@ -232,3 +239,4 @@ export const DownloadPlantsModal: React.FC<DownloadPlantsModalProps> = ({
     </div>
   );
 };
+

@@ -20,6 +20,8 @@ export interface CuratedProperty {
   tag?: string;
   whatsappInquiryText: string;
   externalLink?: string;
+  pdfFilename?: string;
+  pdfEnabled?: boolean;
 }
 
 export interface FeaturedProject {
@@ -37,6 +39,8 @@ export interface FeaturedProject {
     highlight: string;
   };
   whatsappMessage: string;
+  pdfFilename?: string;
+  pdfEnabled?: boolean;
 }
 
 export interface CustomBlock {

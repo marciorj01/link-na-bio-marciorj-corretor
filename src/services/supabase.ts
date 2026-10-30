@@ -222,11 +222,14 @@ export async function saveLeadToSupabase(lead: CapturedLead): Promise<boolean> {
 
 /**
  * Insere um lead direto com nome, telefone e empreendimento
+ * Formato 100% alinhado às colunas da tabela 'leads' no Supabase:
+ * name, whatsapp, interest, lead_type, property_id, created_at
  */
 export async function insertLead(leadData: {
   nome: string;
   telefone: string;
   empreendimento: string;
+  property_id?: string;
 }): Promise<{ success: boolean; error?: string }> {
   const creds = getSupabaseCredentials();
   if (!creds) {
@@ -234,6 +237,15 @@ export async function insertLead(leadData: {
   }
 
   try {
+    const payload = {
+      name: leadData.nome,
+      whatsapp: leadData.telefone,
+      interest: leadData.empreendimento,
+      lead_type: 'plantas',
+      property_id: leadData.property_id || '',
+      created_at: new Date().toISOString(),
+    };
+
     const res = await fetch(`${creds.url}/rest/v1/leads`, {
       method: 'POST',
       headers: {
@@ -242,15 +254,7 @@ export async function insertLead(leadData: {
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal',
       },
-      body: JSON.stringify({
-        nome: leadData.nome,
-        telefone: leadData.telefone,
-        empreendimento: leadData.empreendimento,
-        name: leadData.nome,
-        whatsapp: leadData.telefone,
-        interest: leadData.empreendimento,
-        created_at: new Date().toISOString(),
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (res.ok) {
@@ -258,6 +262,7 @@ export async function insertLead(leadData: {
     }
 
     const errJson = await res.json().catch(() => null);
+    console.warn('Erro ao inserir lead na tabela do Supabase:', errJson);
     return {
       success: false,
       error: errJson?.message || `Erro HTTP ${res.status} ao registrar lead.`,

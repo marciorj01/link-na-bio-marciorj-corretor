@@ -153,7 +153,8 @@ export const FeaturedBlock: React.FC<FeaturedBlockProps> = ({
         isOpen={isDownloadModalOpen}
         onClose={() => setIsDownloadModalOpen(false)}
         projectName={project.name || 'Helbor VM125'}
-        pdfFilename="helbor-vm125-apresentacao.pdf"
+        pdfFilename={project.pdfFilename || 'helbor-vm125-apresentacao.pdf'}
+        propertyId={project.id || 'featured'}
         phone={phone}
       />
     </section>

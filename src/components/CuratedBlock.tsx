@@ -1,8 +1,9 @@
-import React from 'react';
-import { ExternalLink, MapPin, ChevronRight, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, MapPin, ChevronRight, MessageCircle, FileDown } from 'lucide-react';
 import { CuratedProperty } from '../types';
 import { ImageWithFallback } from './ImageWithFallback';
 import { formatWhatsAppUrl } from '../utils/whatsapp';
+import { DownloadPlantsModal } from './DownloadPlantsModal';
 
 const normalizeUrl = (url?: string): string => {
   if (!url) return '';
@@ -31,6 +32,8 @@ export const CuratedBlock: React.FC<CuratedBlockProps> = ({
   phone,
   onSelectProperty,
 }) => {
+  const [pdfPropertyModal, setPdfPropertyModal] = useState<CuratedProperty | null>(null);
+
   return (
     <section className="px-5 py-4 curated-block">
       {/* Block Heading */}
@@ -170,11 +173,37 @@ export const CuratedBlock: React.FC<CuratedBlockProps> = ({
                     <span>Consultar</span>
                   </a>
                 </div>
+
+                {/* Botão Baixar Apresentação e Plantas (PDF) - Imagem 2 e 3 */}
+                {property.pdfEnabled !== false && Boolean(property.pdfFilename && property.pdfFilename.trim()) && (
+                  <div className="pt-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setPdfPropertyModal(property)}
+                      className="flex items-center justify-center gap-2 w-full min-h-[42px] px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-[#E8D5A0] hover:text-white border border-[#C5973D]/30 hover:border-[#C5973D]/60 text-xs font-medium transition-all cursor-pointer shadow-sm group/pdf"
+                    >
+                      <FileDown className="w-3.5 h-3.5 text-[#C5973D] group-hover/pdf:scale-110 transition-transform" />
+                      <span>Baixar Apresentação e Plantas (PDF)</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Modal de Download de Plantas e Apresentação do Imóvel Selecionado */}
+      {pdfPropertyModal && (
+        <DownloadPlantsModal
+          isOpen={Boolean(pdfPropertyModal)}
+          onClose={() => setPdfPropertyModal(null)}
+          projectName={pdfPropertyModal.title}
+          pdfFilename={pdfPropertyModal.pdfFilename || `${pdfPropertyModal.id}-apresentacao.pdf`}
+          propertyId={pdfPropertyModal.id}
+          phone={phone}
+        />
+      )}
     </section>
   );
 };

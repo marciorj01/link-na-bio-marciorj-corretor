@@ -65,6 +65,14 @@ export function deepMergePreservingUserEdits(
                 prop.imageUrl && prop.imageUrl.trim() !== ''
                   ? prop.imageUrl
                   : matchingDefault?.imageUrl || prop.imageUrl || '',
+              pdfFilename:
+                prop.pdfFilename !== undefined
+                  ? prop.pdfFilename
+                  : matchingDefault?.pdfFilename || '',
+              pdfEnabled:
+                prop.pdfEnabled !== undefined
+                  ? prop.pdfEnabled
+                  : matchingDefault?.pdfEnabled || false,
             };
           })
         : defaults.curatedBlock.properties,
@@ -78,6 +86,14 @@ export function deepMergePreservingUserEdits(
         userCustom.featuredProject?.imageUrl && userCustom.featuredProject.imageUrl.trim() !== ''
           ? userCustom.featuredProject.imageUrl
           : defaults.featuredProject?.imageUrl || '',
+      pdfFilename:
+        userCustom.featuredProject?.pdfFilename !== undefined
+          ? userCustom.featuredProject.pdfFilename
+          : defaults.featuredProject?.pdfFilename || 'helbor-vm125-apresentacao.pdf',
+      pdfEnabled:
+        userCustom.featuredProject?.pdfEnabled !== undefined
+          ? userCustom.featuredProject.pdfEnabled
+          : defaults.featuredProject?.pdfEnabled ?? true,
       specs: {
         ...defaults.featuredProject.specs,
         ...(userCustom.featuredProject?.specs || {}),
