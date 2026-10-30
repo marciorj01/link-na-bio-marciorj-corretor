@@ -1,8 +1,8 @@
-import React from 'react';
-import { Sparkles, MapPin, ExternalLink, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, MapPin, ExternalLink, FileDown } from 'lucide-react';
 import { FeaturedProject } from '../types';
 import { ImageWithFallback } from './ImageWithFallback';
-import { formatWhatsAppUrl } from '../utils/whatsapp';
+import { DownloadPlantsModal } from './DownloadPlantsModal';
 
 const normalizeUrl = (url?: string): string => {
   if (!url) return '';
@@ -22,10 +22,7 @@ export const FeaturedBlock: React.FC<FeaturedBlockProps> = ({
   project,
   phone,
 }) => {
-  const whatsappUrl = formatWhatsAppUrl(
-    phone,
-    project.whatsappMessage || `Olá Márcio, vi o ${project.name} no link da bio e gostaria de receber plantas e detalhes.`
-  );
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
   const targetLink = normalizeUrl(project.link);
   const hasLink = Boolean(targetLink);
@@ -138,19 +135,27 @@ export const FeaturedBlock: React.FC<FeaturedBlockProps> = ({
               <ExternalLink className="w-4 h-4 stroke-[2.2] transform group-hover/btn:translate-x-0.5 transition-transform" />
             </a>
 
-            {/* Direct WhatsApp Concierge CTA */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-[#E8D5A0] hover:text-white border border-white/10 text-xs font-medium transition-all"
+            {/* Download Presentation & Plants Button (Lead capture + Supabase Storage Signed URL) */}
+            <button
+              type="button"
+              onClick={() => setIsDownloadModalOpen(true)}
+              className="flex items-center justify-center gap-2 w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-[#E8D5A0] hover:text-white border border-[#C5973D]/30 hover:border-[#C5973D]/60 text-xs font-medium transition-all cursor-pointer group/dl shadow-sm"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>Solicitar apresentação e plantas via WhatsApp</span>
-            </a>
+              <FileDown className="w-3.5 h-3.5 text-[#C5973D] group-hover/dl:scale-110 transition-transform" />
+              <span>Baixar Apresentação e Plantas (PDF)</span>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Modal de Captura de Lead & Download Automático Seguro via Supabase Storage */}
+      <DownloadPlantsModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
+        projectName={project.name || 'Helbor VM125'}
+        pdfFilename="helbor-vm125-apresentacao.pdf"
+        phone={phone}
+      />
     </section>
   );
 };
