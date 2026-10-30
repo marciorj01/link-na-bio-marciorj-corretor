@@ -134,6 +134,14 @@ export const MinisiteLivePreview: React.FC<MinisiteLivePreviewProps> = ({ config
             />
           )}
 
+          {/* Featured Project Block (Destaque em primeiro) */}
+          {visibility.featured && (
+            <FeaturedBlock
+              project={config.featuredProject}
+              phone={config.profile.phone}
+            />
+          )}
+
           {/* Curated Properties Block */}
           {visibility.curated && (
             <CuratedBlock
@@ -144,14 +152,6 @@ export const MinisiteLivePreview: React.FC<MinisiteLivePreviewProps> = ({ config
               properties={config.curatedBlock.properties}
               phone={config.profile.phone}
               onSelectProperty={() => {}}
-            />
-          )}
-
-          {/* Featured Project Block */}
-          {visibility.featured && (
-            <FeaturedBlock
-              project={config.featuredProject}
-              phone={config.profile.phone}
             />
           )}
 

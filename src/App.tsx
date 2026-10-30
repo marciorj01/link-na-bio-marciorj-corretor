@@ -449,7 +449,17 @@ export default function App() {
           </Suspense>
         )}
 
-        {/* 3. BLOCO — CURADORIA DE IMÓVEIS */}
+        {/* 3. BLOCO — DESTAQUE ATUAL (Aparece em primeiro lugar) */}
+        {visibility.featured && (
+          <Suspense fallback={<BlockSkeleton />}>
+            <FeaturedBlock
+              project={activeConfig.featuredProject}
+              phone={activeConfig.profile.phone}
+            />
+          </Suspense>
+        )}
+
+        {/* 4. BLOCO — CURADORIA DE IMÓVEIS */}
         {visibility.curated && (
           <Suspense fallback={<BlockSkeleton />}>
             <CuratedBlock
@@ -460,16 +470,6 @@ export default function App() {
               properties={activeConfig.curatedBlock.properties}
               phone={activeConfig.profile.phone}
               onSelectProperty={(prop) => setSelectedProperty(prop)}
-            />
-          </Suspense>
-        )}
-
-        {/* 4. BLOCO — DESTAQUE ATUAL */}
-        {visibility.featured && (
-          <Suspense fallback={<BlockSkeleton />}>
-            <FeaturedBlock
-              project={activeConfig.featuredProject}
-              phone={activeConfig.profile.phone}
             />
           </Suspense>
         )}

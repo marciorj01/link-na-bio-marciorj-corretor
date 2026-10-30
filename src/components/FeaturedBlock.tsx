@@ -1,8 +1,16 @@
 import React from 'react';
-import { Sparkles, MapPin, ExternalLink, MessageCircle, Edit3 } from 'lucide-react';
+import { Sparkles, MapPin, ExternalLink, MessageCircle } from 'lucide-react';
 import { FeaturedProject } from '../types';
 import { ImageWithFallback } from './ImageWithFallback';
 import { formatWhatsAppUrl } from '../utils/whatsapp';
+
+const normalizeUrl = (url?: string): string => {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+};
 
 interface FeaturedBlockProps {
   project: FeaturedProject;
@@ -18,6 +26,15 @@ export const FeaturedBlock: React.FC<FeaturedBlockProps> = ({
     phone,
     project.whatsappMessage || `Olá Márcio, vi o ${project.name} no link da bio e gostaria de receber plantas e detalhes.`
   );
+
+  const targetLink = normalizeUrl(project.link);
+  const hasLink = Boolean(targetLink);
+
+  const handleOpenLink = () => {
+    if (hasLink) {
+      window.open(targetLink, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <section className="px-5 py-4">
@@ -38,7 +55,10 @@ export const FeaturedBlock: React.FC<FeaturedBlockProps> = ({
         <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#C5973D] to-transparent opacity-80" />
 
         {/* Larger Featured Photo */}
-        <div className="photo-card-media relative aspect-[16/10] w-full overflow-hidden">
+        <div
+          className={`photo-card-media relative aspect-[16/10] w-full overflow-hidden ${hasLink ? 'cursor-pointer' : ''}`}
+          onClick={hasLink ? handleOpenLink : undefined}
+        >
           <ImageWithFallback
             src={project.imageUrl}
             alt={`${project.name} - ${project.neighborhood}`}
@@ -67,7 +87,10 @@ export const FeaturedBlock: React.FC<FeaturedBlockProps> = ({
         <div className="p-5 flex flex-col">
           {/* Project Name and Subtitle */}
           <div className="mb-3">
-            <h3 className="text-2xl font-serif font-medium text-[#F8F7F4] mb-1">
+            <h3
+              className={`text-2xl font-serif font-medium text-[#F8F7F4] mb-1 ${hasLink ? 'cursor-pointer hover:text-[#E8D5A0] transition-colors' : ''}`}
+              onClick={hasLink ? handleOpenLink : undefined}
+            >
               {project.name}
               <span className="text-lg font-light text-[#9E9B95] ml-2">
                 — {project.neighborhood}
@@ -106,7 +129,7 @@ export const FeaturedBlock: React.FC<FeaturedBlockProps> = ({
           <div className="flex flex-col gap-2.5">
             {/* Primary Project Link Button: "Conheça o VM125" */}
             <a
-              href={project.link || '#'}
+              href={targetLink || '#'}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between w-full min-h-[50px] px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#C5973D] via-[#D4AF37] to-[#B8872F] text-[#0E0F12] font-semibold text-sm tracking-wide shadow-lg shadow-[#C5973D]/15 hover:brightness-105 active:scale-[0.99] transition-all group/btn"
