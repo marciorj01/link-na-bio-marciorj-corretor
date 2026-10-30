@@ -155,16 +155,6 @@ export const SellerBlock: React.FC<SellerBlockProps> = ({
           })}
         </div>
 
-        {/* Clear difference line below cards */}
-        {comparisonNote && (
-          <div className="mt-4 px-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/6 flex items-center gap-2.5">
-            <Info className="w-4 h-4 text-[#C5973D] shrink-0" />
-            <p className="text-xs text-[#E8D5A0]/90 font-light leading-snug">
-              {comparisonNote}
-            </p>
-          </div>
-        )}
-
         {/* Discreet reassurance */}
         <p className="text-[11px] text-center text-[#9E9B95]/70 mt-3.5">
           Atendimento reservado e consultivo para o seu patrimônio.

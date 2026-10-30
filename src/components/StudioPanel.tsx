@@ -2314,115 +2314,31 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
               </div>
 
               {/* ======================================================== */}
-              {/* SEÇÃO 3: PARA PROPRIETÁRIOS (BUILDER DE PARCERIAS)       */}
+              {/* SEÇÃO 3: PARA PROPRIETÁRIOS (LOFT & QUINTOANDAR)          */}
               {/* ======================================================== */}
               <div className="border-t border-white/10 pt-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <KeyRound className="w-4 h-4 text-[#C5973D]" />
-                    <label className="text-xs font-semibold text-[#E8D5A0] uppercase tracking-wider block">
-                      Bloco Para Proprietários (Loft & QuintoAndar)
-                    </label>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleAddSellerCard}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#C5973D] hover:bg-[#D4AF37] text-[#0E0F12] font-semibold text-[11px] shadow-sm transition-all"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Adicionar Cartão</span>
-                  </button>
+                <div className="flex items-center gap-2">
+                  <KeyRound className="w-4 h-4 text-[#C5973D]" />
+                  <label className="text-xs font-semibold text-[#E8D5A0] uppercase tracking-wider block">
+                    Bloco Para Proprietários (Loft & QuintoAndar)
+                  </label>
                 </div>
 
-                <p className="text-[11px] text-[#9E9B95] leading-relaxed">
-                  Personalize títulos, texto de apoio, botão principal de WhatsApp e gerencie os cartões de parceria individuais com total autonomia.
-                </p>
-
-                {/* Campos Gerais do Bloco */}
-                <div className="space-y-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/8">
-                  <div>
-                    <label className="block text-[11px] text-[#9E9B95] mb-1">Título do Bloco</label>
-                    <input
-                      type="text"
-                      value={formData.sellerBlock.title}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          sellerBlock: { ...formData.sellerBlock, title: e.target.value },
-                        })
-                      }
-                      className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none"
-                      placeholder="Quer vender ou alugar seu imóvel?"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] text-[#9E9B95] mb-1">Texto de Apoio / Descritivo</label>
-                    <textarea
-                      rows={2}
-                      value={formData.sellerBlock.description}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          sellerBlock: { ...formData.sellerBlock, description: e.target.value },
-                        })
-                      }
-                      className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none resize-none leading-relaxed"
-                      placeholder="Anuncie com quem é parceiro Loft e QuintoAndar..."
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                    <div>
-                      <label className="block text-[11px] text-[#9E9B95] mb-1">Texto do Botão Principal</label>
-                      <input
-                        type="text"
-                        value={formData.sellerBlock.ctaText}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            sellerBlock: { ...formData.sellerBlock, ctaText: e.target.value },
-                          })
-                        }
-                        className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none"
-                        placeholder="Quero vender ou alugar meu imóvel"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] text-[#9E9B95] mb-1">Mensagem do WhatsApp (Principal)</label>
-                      <input
-                        type="text"
-                        value={formData.sellerBlock.whatsappMessage}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            sellerBlock: { ...formData.sellerBlock, whatsappMessage: e.target.value },
-                          })
-                        }
-                        className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none"
-                        placeholder="Olá Márcio, tenho um imóvel..."
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] text-[#E8D5A0] mb-1 flex items-center gap-1.5">
-                      <Info className="w-3.5 h-3.5 text-[#C5973D]" />
-                      <span>Linha de Diferença / Comparação (Exibida abaixo dos cartões)</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.sellerBlock.comparisonNote || ''}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          sellerBlock: { ...formData.sellerBlock, comparisonNote: e.target.value },
-                        })
-                      }
-                      className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none"
-                      placeholder="A Loft oferece simulação de financiamento; o QuintoAndar não."
-                    />
-                  </div>
+                {/* Título do Bloco */}
+                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/8">
+                  <label className="block text-[11px] text-[#9E9B95] mb-1">Título do Bloco</label>
+                  <input
+                    type="text"
+                    value={formData.sellerBlock.title}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        sellerBlock: { ...formData.sellerBlock, title: e.target.value },
+                      })
+                    }
+                    className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none"
+                    placeholder="Quer vender ou alugar seu imóvel?"
+                  />
                 </div>
 
                 {/* Lista de Cartões de Parceria */}
