@@ -191,6 +191,7 @@ export interface SiteConfig {
     simulationUrl?: string;
     disclaimer?: string;
     whatsappMessage?: string;
+    banks?: string[];
     cards?: FinancingCard[];
   };
   sellerBlock: {

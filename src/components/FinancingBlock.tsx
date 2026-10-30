@@ -10,6 +10,7 @@ interface FinancingBlockProps {
   simulationUrl?: string;
   disclaimer?: string;
   phone: string;
+  banks?: string[];
   cards?: FinancingCard[];
 }
 
@@ -20,8 +21,12 @@ export const FinancingBlock: React.FC<FinancingBlockProps> = ({
   simulationUrl = 'https://simular.credihome.com.br/marciorj-corretor',
   disclaimer = '*Simulação informativa sujeita à análise de crédito pelas instituições financeiras parceiras.',
   phone,
+  banks,
   cards,
 }) => {
+  const displayBanks = Array.isArray(banks) && banks.length > 0
+    ? banks
+    : ['Caixa', 'Itaú', 'Bradesco', 'Santander'];
   const displayCards: FinancingCard[] = cards && cards.length > 0
     ? cards.filter((c) => c.enabled !== false)
     : [
@@ -81,26 +86,23 @@ export const FinancingBlock: React.FC<FinancingBlockProps> = ({
           {title}
         </h2>
 
-        {/* Description / Support text */}
-        <p className="text-sm text-[#D4D2CD] font-light leading-relaxed mb-4">
-          {description}
-        </p>
-
         {/* Bank Partners Trust Strip */}
-        <div className="flex flex-wrap items-center gap-2 mb-5">
-          <span className="text-[10px] uppercase tracking-wider text-[#9E9B95] mr-1 flex items-center gap-1">
-            <Landmark className="w-3 h-3 text-[#C5973D]" />
-            Bancos:
-          </span>
-          {['Caixa', 'Itaú', 'Bradesco', 'Santander'].map((bank) => (
-            <span
-              key={bank}
-              className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/8 text-[11px] font-medium text-[#F8F7F4]/90"
-            >
-              {bank}
+        {displayBanks.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 mb-5">
+            <span className="text-[10px] uppercase tracking-wider text-[#9E9B95] mr-1 flex items-center gap-1">
+              <Landmark className="w-3 h-3 text-[#C5973D]" />
+              Bancos:
             </span>
-          ))}
-        </div>
+            {displayBanks.map((bank, index) => (
+              <span
+                key={`${bank}-${index}`}
+                className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/8 text-[11px] font-medium text-[#F8F7F4]/90"
+              >
+                {bank}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Financing Cards: container grid responsivo com auto-fit minmax(280px, 1fr) */}
         <div

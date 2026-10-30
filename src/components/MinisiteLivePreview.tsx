@@ -179,6 +179,7 @@ export const MinisiteLivePreview: React.FC<MinisiteLivePreviewProps> = ({ config
               simulationUrl={config.financingBlock?.simulationUrl}
               disclaimer={config.financingBlock?.disclaimer}
               phone={config.profile.phone}
+              banks={config.financingBlock?.banks}
               cards={config.financingBlock?.cards}
             />
           )}

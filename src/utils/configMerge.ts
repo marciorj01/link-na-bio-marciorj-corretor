@@ -88,6 +88,9 @@ export function deepMergePreservingUserEdits(
     financingBlock: {
       ...(defaults.financingBlock || { title: '', description: '' }),
       ...(userCustom.financingBlock || {}),
+      banks: Array.isArray(userCustom.financingBlock?.banks)
+        ? userCustom.financingBlock.banks
+        : (defaults.financingBlock?.banks || ['Caixa', 'Itaú', 'Bradesco', 'Santander']),
       cards: Array.isArray(userCustom.financingBlock?.cards) && userCustom.financingBlock.cards.length > 0
         ? userCustom.financingBlock.cards
         : (defaults.financingBlock?.cards || []),

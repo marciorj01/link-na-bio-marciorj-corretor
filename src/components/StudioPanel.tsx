@@ -44,6 +44,7 @@ import {
   Info,
   QrCode,
   Database,
+  Landmark,
 } from 'lucide-react';
 import {
   SiteConfig,
@@ -627,6 +628,63 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
             '*Simulação informativa sujeita à análise de crédito pelas instituições financeiras parceiras.',
         }),
         cards: newCards,
+      },
+    }));
+  };
+
+  const currentBanks: string[] = Array.isArray(formData.financingBlock?.banks)
+    ? formData.financingBlock.banks
+    : ['Caixa', 'Itaú', 'Bradesco', 'Santander'];
+
+  const [newBankInput, setNewBankInput] = useState('');
+
+  const handleAddBank = () => {
+    const trimmed = newBankInput.trim();
+    if (!trimmed) return;
+    if (currentBanks.some((b) => b.toLowerCase() === trimmed.toLowerCase())) {
+      alert('Este banco já está na lista.');
+      return;
+    }
+    const updated = [...currentBanks, trimmed];
+    setFormData((prev) => ({
+      ...prev,
+      financingBlock: {
+        ...(prev.financingBlock || {
+          title: 'Assessoria & Financiamento Imobiliário',
+          description: '',
+          disclaimer: '*Simulação informativa sujeita à análise de crédito pelas instituições financeiras parceiras.',
+        }),
+        banks: updated,
+      },
+    }));
+    setNewBankInput('');
+  };
+
+  const handleRemoveBank = (indexToRemove: number) => {
+    const updated = currentBanks.filter((_, idx) => idx !== indexToRemove);
+    setFormData((prev) => ({
+      ...prev,
+      financingBlock: {
+        ...(prev.financingBlock || {
+          title: 'Assessoria & Financiamento Imobiliário',
+          description: '',
+          disclaimer: '*Simulação informativa sujeita à análise de crédito pelas instituições financeiras parceiras.',
+        }),
+        banks: updated,
+      },
+    }));
+  };
+
+  const handleResetBanks = () => {
+    setFormData((prev) => ({
+      ...prev,
+      financingBlock: {
+        ...(prev.financingBlock || {
+          title: 'Assessoria & Financiamento Imobiliário',
+          description: '',
+          disclaimer: '*Simulação informativa sujeita à análise de crédito pelas instituições financeiras parceiras.',
+        }),
+        banks: ['Caixa', 'Itaú', 'Bradesco', 'Santander'],
       },
     }));
   };
@@ -2698,29 +2756,78 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-[11px] text-[#9E9B95] mb-1">Texto de Apoio do Bloco</label>
-                    <textarea
-                      rows={2}
-                      value={
-                        formData.financingBlock?.description ||
-                        'Compare taxas entre bancos e parceiras e escolha a melhor condição para o seu perfil.'
-                      }
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          financingBlock: {
-                            ...(formData.financingBlock || {
-                              title: '',
-                              description: '',
-                              disclaimer: '',
-                            }),
-                            description: e.target.value,
-                          },
-                        })
-                      }
-                      className="w-full px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none resize-none leading-relaxed"
-                    />
+                  {/* Gerenciamento Dinâmico de Bancos Parceiros */}
+                  <div className="pt-2 border-t border-white/5 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Landmark className="w-3.5 h-3.5 text-[#C5973D]" />
+                        <label className="text-[11px] font-semibold text-[#E8D5A0] uppercase tracking-wider block">
+                          Bancos Parceiros Exibidos ({currentBanks.length})
+                        </label>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleResetBanks}
+                        className="text-[10px] text-[#9E9B95] hover:text-[#C5973D] underline cursor-pointer"
+                        title="Restaurar lista original de bancos"
+                      >
+                        Restaurar padrão
+                      </button>
+                    </div>
+
+                    <p className="text-[10px] text-[#9E9B95] leading-relaxed">
+                      Adicione ou remova os bancos exibidos na tarja do bloco de financiamento:
+                    </p>
+
+                    {/* Tags dos bancos cadastrados com botão de excluir */}
+                    <div className="flex flex-wrap items-center gap-1.5 min-h-[34px] p-2 rounded-lg bg-black/30 border border-white/5">
+                      {currentBanks.map((bank, index) => (
+                        <span
+                          key={`${bank}-${index}`}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/10 text-xs text-[#F8F7F4] group hover:border-red-400/40 transition-colors"
+                        >
+                          <span>{bank}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveBank(index)}
+                            className="w-3.5 h-3.5 rounded-full hover:bg-red-500/20 text-[#9E9B95] hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer"
+                            title={`Remover ${bank}`}
+                          >
+                            <X className="w-2.5 h-2.5" />
+                          </button>
+                        </span>
+                      ))}
+                      {currentBanks.length === 0 && (
+                        <span className="text-[11px] text-[#71717A] italic">
+                          Nenhum banco cadastrado. Adicione abaixo.
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Formulário para adicionar novo banco */}
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={newBankInput}
+                        onChange={(e) => setNewBankInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleAddBank();
+                          }
+                        }}
+                        placeholder="Nome do banco (ex: Banco do Brasil, Inter, Sicredi...)"
+                        className="flex-1 px-3 py-1.5 rounded-lg bg-[#0E0F12] border border-white/10 text-xs text-white focus:border-[#C5973D] outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddBank}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#C5973D] hover:bg-[#D4A74D] text-[#0E0F12] font-semibold text-xs transition-colors cursor-pointer shadow-sm shrink-0"
+                      >
+                        <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                        <span>Adicionar Banco</span>
+                      </button>
+                    </div>
                   </div>
 
                   <div>

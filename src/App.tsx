@@ -534,6 +534,7 @@ export default function App() {
               simulationUrl={activeConfig.financingBlock?.simulationUrl}
               disclaimer={activeConfig.financingBlock?.disclaimer}
               phone={activeConfig.profile.phone}
+              banks={activeConfig.financingBlock?.banks}
               cards={activeConfig.financingBlock?.cards}
             />
           </Suspense>
