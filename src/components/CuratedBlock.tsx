@@ -4,6 +4,14 @@ import { CuratedProperty } from '../types';
 import { ImageWithFallback } from './ImageWithFallback';
 import { formatWhatsAppUrl } from '../utils/whatsapp';
 
+const normalizeUrl = (url?: string): string => {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+};
+
 interface CuratedBlockProps {
   title: string;
   description: string;
@@ -62,6 +70,17 @@ export const CuratedBlock: React.FC<CuratedBlockProps> = ({
               `Olá Márcio, vi o imóvel ${property.title} no link da bio e gostaria de mais informações.`
           );
 
+          const hasExternalLink = Boolean(property.externalLink && property.externalLink.trim());
+          const targetUrl = hasExternalLink ? normalizeUrl(property.externalLink) : '';
+
+          const handlePropertyCardClick = () => {
+            if (hasExternalLink) {
+              window.open(targetUrl, '_blank', 'noopener,noreferrer');
+            } else {
+              onSelectProperty(property);
+            }
+          };
+
           return (
             <div
               key={property.id}
@@ -70,7 +89,7 @@ export const CuratedBlock: React.FC<CuratedBlockProps> = ({
               {/* Photo Area with Fallback */}
               <div
                 className="photo-card-media relative aspect-[16/9] w-full overflow-hidden cursor-pointer"
-                onClick={() => onSelectProperty(property)}
+                onClick={handlePropertyCardClick}
               >
                 <ImageWithFallback
                   src={property.imageUrl}
@@ -105,7 +124,7 @@ export const CuratedBlock: React.FC<CuratedBlockProps> = ({
                   </div>
                   <h3
                     className="text-lg font-serif font-medium text-[#F8F7F4] group-hover:text-[#E8D5A0] transition-colors leading-snug cursor-pointer"
-                    onClick={() => onSelectProperty(property)}
+                    onClick={handlePropertyCardClick}
                   >
                     {property.title}
                   </h3>
@@ -118,13 +137,27 @@ export const CuratedBlock: React.FC<CuratedBlockProps> = ({
 
                 {/* Card Action Row */}
                 <div className="pt-3 border-t border-white/6 flex items-center justify-between gap-2">
-                  <button
-                    onClick={() => onSelectProperty(property)}
-                    className="text-xs text-[#E8D5A0] hover:text-white font-medium flex items-center gap-1 py-1 transition-colors"
-                  >
-                    <span>Ver detalhes</span>
-                    <ChevronRight className="w-3.5 h-3.5 stroke-[2]" />
-                  </button>
+                  {hasExternalLink ? (
+                    <a
+                      href={targetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-[#E8D5A0] hover:text-white font-medium flex items-center gap-1 py-1 transition-colors group/link"
+                      title="Acessar ficha completa no site oficial"
+                    >
+                      <span>Ver detalhes</span>
+                      <ExternalLink className="w-3.5 h-3.5 stroke-[2] text-[#C5973D] group-hover/link:translate-x-0.5 transition-transform" />
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => onSelectProperty(property)}
+                      className="text-xs text-[#E8D5A0] hover:text-white font-medium flex items-center gap-1 py-1 transition-colors"
+                      title="Ver detalhes do imóvel"
+                    >
+                      <span>Ver detalhes</span>
+                      <ChevronRight className="w-3.5 h-3.5 stroke-[2]" />
+                    </button>
+                  )}
 
                   <a
                     href={directInquiryUrl}

@@ -4,6 +4,14 @@ import { CuratedProperty } from '../types';
 import { ImageWithFallback } from './ImageWithFallback';
 import { formatWhatsAppUrl } from '../utils/whatsapp';
 
+const normalizeUrl = (url?: string): string => {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+};
+
 interface PropertyModalProps {
   property: CuratedProperty | null;
   phone: string;
@@ -160,15 +168,15 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
               <ExternalLink className="w-3.5 h-3.5 text-[#9E9B95] group-hover/sim:text-white" />
             </a>
 
-            {property.externalLink && (
+            {property.externalLink && property.externalLink.trim() && (
               <a
-                href={property.externalLink}
+                href={normalizeUrl(property.externalLink)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full min-h-[44px] px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-medium text-[#D4D2CD] border border-white/5 transition-colors"
               >
                 <span>Acessar ficha no site oficial</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#C5973D]" />
               </a>
             )}
           </div>
