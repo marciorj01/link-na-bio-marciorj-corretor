@@ -20,6 +20,8 @@ export function cleanSupabaseUrl(url: string): string {
   return clean;
 }
 
+export const DEFAULT_SUPABASE_URL = 'https://rujmbhnwyxjzmezhqikw.supabase.co';
+
 /**
  * Obtém as credenciais do Supabase:
  * 1. Prioridade: Variáveis de ambiente Vite (.env ou painel da Netlify)
@@ -27,13 +29,13 @@ export function cleanSupabaseUrl(url: string): string {
  */
 export function getSupabaseCredentials(): SupabaseCredentials | null {
   // 1. Variáveis de ambiente
-  const envUrl = (import.meta as any).env?.VITE_SUPABASE_URL;
+  const envUrl = (import.meta as any).env?.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
   const envKey = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
 
-  if (envUrl && envKey && typeof envUrl === 'string' && typeof envKey === 'string') {
+  if (envKey && typeof envKey === 'string' && envKey.trim().length > 10) {
     const cleanUrl = cleanSupabaseUrl(envUrl);
     const cleanKey = envKey.trim();
-    if (cleanUrl.startsWith('http') && cleanKey.length > 10) {
+    if (cleanUrl.startsWith('http')) {
       return { url: cleanUrl, anonKey: cleanKey };
     }
   }
@@ -44,8 +46,9 @@ export function getSupabaseCredentials(): SupabaseCredentials | null {
       const stored = localStorage.getItem(SUPABASE_STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed.url && parsed.anonKey) {
-          const cleanUrl = cleanSupabaseUrl(String(parsed.url));
+        if (parsed.anonKey) {
+          const rawUrl = parsed.url || DEFAULT_SUPABASE_URL;
+          const cleanUrl = cleanSupabaseUrl(String(rawUrl));
           const cleanKey = String(parsed.anonKey).trim();
           if (cleanUrl.startsWith('http') && cleanKey.length > 10) {
             return { url: cleanUrl, anonKey: cleanKey };

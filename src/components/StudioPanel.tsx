@@ -915,7 +915,7 @@ export const StudioPanel: React.FC<StudioPanelProps> = ({
   };
 
   // Gerenciamento de conexão com o Supabase (Nuvem em tempo real)
-  const [supabaseUrl, setSupabaseUrl] = useState(() => getSupabaseCredentials()?.url || '');
+  const [supabaseUrl, setSupabaseUrl] = useState(() => getSupabaseCredentials()?.url || 'https://rujmbhnwyxjzmezhqikw.supabase.co');
   const [supabaseAnonKey, setSupabaseAnonKey] = useState(() => getSupabaseCredentials()?.anonKey || '');
   const [supabaseTesting, setSupabaseTesting] = useState(false);
   const [supabaseFeedback, setSupabaseFeedback] = useState<{ success: boolean; message: string } | null>(null);

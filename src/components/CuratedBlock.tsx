@@ -175,7 +175,7 @@ export const CuratedBlock: React.FC<CuratedBlockProps> = ({
                 </div>
 
                 {/* Botão Baixar Apresentação e Plantas (PDF) - Imagem 2 e 3 */}
-                {property.pdfEnabled !== false && Boolean(property.pdfFilename && property.pdfFilename.trim()) && (
+                {(property.pdfEnabled === true || (property.pdfEnabled !== false && Boolean(property.pdfFilename && property.pdfFilename.trim()))) && (
                   <div className="pt-2.5">
                     <button
                       type="button"
