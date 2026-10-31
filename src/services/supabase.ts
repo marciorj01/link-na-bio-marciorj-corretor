@@ -212,15 +212,12 @@ export async function saveLeadToSupabase(lead: CapturedLead): Promise<boolean> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        nome: lead.name,
-        telefone: lead.whatsapp,
-        empreendimento: lead.interest || '',
         name: lead.name,
-        whatsapp: lead.whatsapp,
-        interest: lead.interest || '',
-        lead_type: lead.type || 'geral',
-        property_id: lead.propertyId || '',
-        created_at: new Date().toISOString(),
+        whatsapp: lead.phone || lead.email || '',
+        interest: lead.materialTitle || '',
+        lead_type: 'ebook',
+        property_id: lead.id || '',
+        created_at: lead.createdAt || new Date().toISOString(),
       }),
     });
 
