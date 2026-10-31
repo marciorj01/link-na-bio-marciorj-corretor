@@ -21,13 +21,16 @@ export function cleanSupabaseUrl(url: string): string {
 }
 
 export const DEFAULT_SUPABASE_URL = 'https://rujmbhnwyxjzmezhqikw.supabase.co';
+export const DEFAULT_SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1am1iaG53eXhqem1lemhxaWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzOTI0NjQsImV4cCI6MjEwODk2ODQ2NH0.w5OPOMwVw1gqEmftKz4fF0MExXOC2rdWOf-YyaszRD8';
 
 /**
  * Obtém as credenciais do Supabase:
  * 1. Prioridade: Variáveis de ambiente Vite (.env ou painel da Netlify)
- * 2. Fallback: Configurações salvas diretamente pelo corretor no Painel Studio
+ * 2. Armazenamento configurado pelo corretor no Painel Studio (localStorage)
+ * 3. Fallback oficial integrado (garante que qualquer visitante no celular/Instagram baixe o PDF e salve o lead)
  */
-export function getSupabaseCredentials(): SupabaseCredentials | null {
+export function getSupabaseCredentials(): SupabaseCredentials {
   // 1. Variáveis de ambiente
   const envUrl = (import.meta as any).env?.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
   const envKey = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
@@ -60,7 +63,11 @@ export function getSupabaseCredentials(): SupabaseCredentials | null {
     }
   }
 
-  return null;
+  // 3. Padrão integrado (Sempre ativo para o projeto do corretor Márcio)
+  return {
+    url: DEFAULT_SUPABASE_URL,
+    anonKey: DEFAULT_SUPABASE_ANON_KEY,
+  };
 }
 
 /**
@@ -291,7 +298,7 @@ export async function createSignedStorageUrl(
 
   try {
     const cleanPath = filePath.replace(/^\/+/, '');
-    const endpoint = `${creds.url}/storage/v1/object/sign/${bucket}/${cleanPath}`;
+    const endpoint = `${creds.url}/storage/v1/object/sign/${bucket}/${encodeURI(cleanPath)}`;
 
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -318,8 +325,9 @@ export async function createSignedStorageUrl(
     }
 
     const data = await res.json();
-    if (data && data.signedURL) {
-      let fullUrl = data.signedURL;
+    const rawUrl = data?.signedURL || data?.signedUrl;
+    if (rawUrl) {
+      let fullUrl = rawUrl;
       if (!fullUrl.startsWith('http')) {
         if (fullUrl.startsWith('/storage/v1')) {
           fullUrl = `${creds.url}${fullUrl}`;
