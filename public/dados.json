@@ -118,7 +118,7 @@
         "id": "seller-card-loft",
         "title": "LOFT",
         "badge": "seguro locação",
-        "description": "Locação: seguro locação garantido (você recebe em dia) e locação sem fiador.",
+        "description": "Seguro locação garantido (você recebe em dia) e locação sem fiador para o inquilino",
         "buttonText": "Falar no WhatsApp",
         "buttonType": "whatsapp",
         "whatsappMessage": "Olá Márcio,  gostaria de conversar sobre locação com seguro sem fiador",
@@ -128,7 +128,7 @@
         "id": "seller-card-quintoandar",
         "title": "Quinto Andar",
         "badge": "100% Digital",
-        "description": "Hospede seu anúncio no Quinto Andar. Venda e locação sem burocracia, com fotos profissionais e contrato  assinado 100% digital.",
+        "description": "Cadastre seu imóvel no Quinto Andar. Venda e locação sem burocracia, com fotos profissionais e contrato  assinado 100% digital.",
         "buttonText": "Cadastrar meu imóvel",
         "buttonType": "url",
         "url": "https://portalcaptacao.quintoandar.com.br/marciorj01-59138",
@@ -165,7 +165,7 @@
         "whatsappInquiryText": "Olá Marcio Rogério, vi a Nova Oportunidade no link da bio e gostaria de mais informações.",
         "externalLink": "https://marciorjcorretor.com.br",
         "pdfEnabled": true,
-        "pdfFilename": "bioma-apresentacao-plantas.pdf"
+        "pdfFilename": "_Book Bioma.pdf"
       },
       {
         "id": "prop-1",
@@ -183,8 +183,8 @@
         "externalLink": "https://marciorjcorretor.com.br/imovel/chacara-area-rural-quatro-pinheiros-mandirituba-pr-5-quartos-360m2-1",
         "neighborhood": "Mandirituba e Região",
         "whatsappInquiryText": "Olá Márcio, vi a Chácara Cruz com Área Verde no link da bio e gostaria de mais informações.",
-        "pdfEnabled": true,
-        "pdfFilename": "chacara-mandirituba-apresentacao.pdf"
+        "pdfEnabled": false,
+        "pdfFilename": ""
       },
       {
         "id": "prop-2",
@@ -203,8 +203,8 @@
         "externalLink": "https://marciorjcorretor.com.br/imovel/apartamento-veneza-fazenda-rio-grande-pr-2-quartos-4",
         "neighborhood": "Fazenda Rio Grande",
         "whatsappInquiryText": "Olá Márcio, vi o Apartamento Residencial Mendoza no link da bio e quero agendar uma visita.",
-        "pdfEnabled": true,
-        "pdfFilename": "apartamento-fazenda-rio-grande-apresentacao.pdf"
+        "pdfEnabled": false,
+        "pdfFilename": ""
       }
     ],
     "websiteUrl": "https://marciorjcorretor.com.br",
@@ -236,8 +236,8 @@
         "id": "fin-simulator",
         "title": "Simulador de crédito LOFT",
         "badge": "Loft financiamento",
-        "description": "Simule em múltiplos bancos e encontre a menor taxa para o seu perfil.",
-        "buttonText": "Simular Financiamento Gratuito",
+        "description": "Simule em múltiplos bancos e encontre a menor taxa para o seu perfil com a CrediHome by Loft",
+        "buttonText": "Simular Financiamento LOFT",
         "buttonType": "url",
         "url": "https://simular.credihome.com.br/marciorj-corretor",
         "status": "active",
@@ -245,14 +245,15 @@
       },
       {
         "id": "fin-partner-1",
-        "title": "Parceira de financiamento",
+        "title": "Simulador de Crédito SPRINT",
         "badge": "",
-        "description": "CrediHome by Loft: assessoria especializada e gratuita para aprovar seu crédito imobiliário com agilidade e as melhores condições.",
-        "buttonText": "Consultar no WhatsApp",
-        "buttonType": "whatsapp",
+        "description": "Simule em múltiplos bancos e encontre a menor taxa para o seu perfil com a SPRINT",
+        "buttonText": "Simular Financiamento SPRINT",
+        "buttonType": "url",
         "whatsappMessage": "Olá Márcio, gostaria de tirar dúvidas e consultar a aprovação de crédito imobiliário com a parceira de financiamento.",
         "status": "active",
-        "enabled": true
+        "enabled": true,
+        "url": "https://app.sousprint.com.br/p/marcio-rogerio-de-jesus-b41410"
       }
     ],
     "title": "Assessoria & Financiamento Imobiliário",
@@ -265,7 +266,8 @@
       "Caixa",
       "Itaú",
       "Bradesco",
-      "Santander"
+      "Santander",
+      "Inter"
     ]
   },
   "blockVisibility": {
