@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({
           title={onSecretAccess ? undefined : 'CRECI Verificado'}
         >
           <ShieldCheck className="w-3.5 h-3.5" />
-          <span className="font-semibold text-[#E8D5A0]">{creci}</span>
+          <span className="font-semibold text-[#E8D5A0]">CRECI-PR 59138-F</span>
         </div>
         <span aria-hidden="true" className="text-white/20">·</span>
         <div className="flex items-center gap-1">
